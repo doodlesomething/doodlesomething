@@ -2,6 +2,7 @@
 	date:9-1-2014
 	函数 strncpy(s, t, n)将 t 中最多前 n 个字符复制到 s中
 	Here are four versions
+	注意目的字符串必须足够容纳元字符串
 	*/
 
 	/*
