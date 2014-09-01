@@ -1,6 +1,8 @@
 
 
 	/*
+	date:2014/9/1
+	author:doodlesomething
 	这是在看K&R的<<The C Programming Language>>时的练习题strindex的不同版本
 	strindex 函数返回字符串 t 在字符串 s 中出现的起始位置或索引。当 s 不包含 t 时,返回值为-1。
 	*/
