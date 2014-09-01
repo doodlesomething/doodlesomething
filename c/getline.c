@@ -1,4 +1,5 @@
-  	/*	
+  	
+	/*	
 	date:8-11-2014
 	author:doodlsomething
 	getline()--函数返回的是整行的长度
