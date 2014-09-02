@@ -37,8 +37,8 @@
 	    {  
 	      while (--n && *s1 && *s1 == *s2)  
 	      {  
-	      <span style="white-space:pre">  </span>s1++;  
-	      <span style="white-space:pre">  </span>s2++;  
+	      	s1++;  
+	      	s2++;  
 	      }  
 	      return (*s1-*s2);  
 	    }  
