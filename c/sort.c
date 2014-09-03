@@ -30,8 +30,8 @@ void qsort(char *lineptr[],int left,int right);
 //main function 
 int main() {
 	int nlines; 	//the number of all input lines
-
-	if( (nlines = readlines(lineptr,MAXLINES) ) >=0) {
+	//when the nlines bigger than 1 we sort the lines
+	if( (nlines = readlines(lineptr,MAXLINES) ) >1) {
 		qsort(lineptr,0,nlines-1);
 		writelines(lineptr,nlines);
 		return 0;
@@ -52,8 +52,8 @@ int main() {
 		char *alloc(int n);
 	
 		inlines = 0;
-
-		while( (len = getLine(line,MAXLEN) > 0) ) {
+		
+		while( (len = getLine(line,MAXLEN)) > 0 ) {
 			if( inlines > lim ||  ( p = alloc(len) ) == NULL ) 
 				return -1;
 			else {
@@ -78,9 +78,10 @@ int main() {
 		//if the lines fewer than two
 		if(left >= right)
 			return;
-		last = left;
 		
 		swap(lineptr,left,(left+right)/2);
+
+		last = left;
 
 		for(i=left+1;i <= right;i++) {
 			if( strcmp(lineptr[i],lineptr[left]) <0 )
@@ -89,8 +90,9 @@ int main() {
 		
 		swap(lineptr,left,last);
 		qsort(lineptr,left,last-1);
-		qsort(lineptr,last,right);
+		qsort(lineptr,last+1,right);
 	}
+
 	//swap pointer
 	void swap(char *v[],int i,int j) {
 		char *tmp;
@@ -101,6 +103,7 @@ int main() {
 
 	//write line string
 	void writelines(char *lineptr[],int nlines) {
+		printf("\nThe result is :\n\n");
 		while(--nlines>0) {
 			printf("%s\n",*lineptr++);
 		}
@@ -115,12 +118,23 @@ int main() {
 		
 		while(--lim > 0 && (c = getchar()) != EOF && c != '\n')
 			*tmp++=c;
+		/*
+		在开始程序时，我的代码如下：
+		if(c == '\n')
+			*tmp=c;
+		*++tmp='\0';
+		这样无论怎样输入回车加上ctrl+d，tmp的值为1 
+		函数的最后返回值都大于零，无法结束输入
+		*/
 
 		if(c == '\n')
-			*tmp = c;
+			*tmp++= c;
 
-		*++tmp= '\0';
-		
+		*tmp= '\0';
+
+
+
+		//return the length of line
 		return (int) (tmp-line);
 	}
 	
