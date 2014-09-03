@@ -39,13 +39,17 @@ int main(int argc,char *argv[]) {
 			}
 		}
 	}
-
+	//当
 	if( argc != 1) {
 		printf("Usage:find -n -x pattern\n");
 	}
 	else {
 		while( getLine(line,MAXLEN) >0 ) {
 			linenum++;
+			/*
+			当带有-x时,如果匹配则条件为 1 !=1,反之不匹配则条件为 0 != 1(满足，则打印不匹配的);
+			当不带-x时，如果匹配则条件为 1 != 0 (满足，则打印匹配的)
+			*/
 			if( (strstr(line,*argv) != NULL) != x) {
 				if(n) {
 					printf("%d:",linenum);
