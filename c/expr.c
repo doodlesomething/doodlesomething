@@ -6,6 +6,8 @@
 
    由于在shell下*会被扩展为所在目录下的所有文件，所以就用#代替
 
+   程序没有进行输入检测
+
   输入：./expr  1 2 +
   输入： 3
 
@@ -23,6 +25,12 @@
 
 void push(int f);
 int pop(void);
+
+
+void panic(const char *msg) {
+	fprintf(stderr, "%s\n", msg);
+	exit(EXIT_FAILURE);
+}
 
 int main(int argc,char *argv[]) {
 	/*
@@ -60,8 +68,8 @@ int main(int argc,char *argv[]) {
 					if(op2 != 0.0)
 						push(pop()/op2);
 					else
-						printf("error:zero divisor\n");
-					break;
+						printf("error:zero divsion\n");
+						break;
 
 				case '%':
 					op2=pop();
@@ -75,7 +83,7 @@ int main(int argc,char *argv[]) {
 						printf("error:zero modulo\n");
 					break;
 				default:
-					printf("Usage:expr num num num operator operator  -- something like that\n");
+					panic("Error:unkown operator");
 					break;
 			}
 	}
