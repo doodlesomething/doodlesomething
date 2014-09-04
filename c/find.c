@@ -32,7 +32,7 @@ int main(int argc,char *argv[]) {
 	
 	/*
 	这里的(*++argv)[0]取到的是每个参数的第一个字符（第一个参数除外）
-	(*++argv) 类似取到了一个字符数组
+	(*++argv) 类似取到了一个字符数组，[0]即取相应的值
 	*/
 	while(--argc > 0 && (*++argv)[0] == '-') {
 		/*
@@ -67,6 +67,9 @@ int main(int argc,char *argv[]) {
 			/*
 			当带有-x时,如果匹配则条件为 1 !=1,反之不匹配则条件为 0 != 1(满足，则打印不匹配的);
 			当不带-x时，如果匹配则条件为 1 != 0 (满足，则打印匹配的)
+
+			由于pattern参数不能进入while循环中，但在判断是已经将argv ++ 了所以argv指向了
+			pattern *argv表示pattern这个字符串数组,即该字符串的首地址
 			*/
 			if( (strstr(line,*argv) != NULL) != x) {
 				if(n) {
