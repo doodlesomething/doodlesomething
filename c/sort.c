@@ -31,7 +31,7 @@ void qsort(char *lineptr[],int left,int right);
 int main() {
 	int nlines; 	//the number of all input lines
 	//when the nlines bigger than 1 we sort the lines
-	if( (nlines = readlines(lineptr,MAXLINES) ) >1) {
+	if( (nlines = readlines(lineptr,MAXLINES) ) >0) {
 		qsort(lineptr,0,nlines-1);
 		writelines(lineptr,nlines);
 		return 0;
@@ -104,8 +104,8 @@ int main() {
 	//write line string
 	void writelines(char *lineptr[],int nlines) {
 		printf("\nThe result is :\n\n");
-		while(--nlines>0) {
-			printf("%s\n",*lineptr++);
+		while(nlines-- >0) {
+			printf("%s\n",*lineptr++ );
 		}
 	}
 
@@ -152,3 +152,8 @@ int main() {
 			return 0;
 	}
 
+	//free buf
+	void afree(char *p) {
+		if( p >= buf && p < (buf + MAXBUFPSIZE) )
+			bufp = p;
+	}
