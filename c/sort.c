@@ -152,8 +152,3 @@ int main() {
 			return 0;
 	}
 
-	//free buf
-	void afree(char *p) {
-		if( p >= buf && p < (buf + MAXBUFPSIZE) )
-			bufp = p;
-	}
