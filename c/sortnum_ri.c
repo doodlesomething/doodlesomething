@@ -135,7 +135,7 @@ int main(int argc,char *argv[]) {
 		const char *p1 = reverse ? s2 : s1;
 		const char *p2 = reverse ? s1 : s2;
 
-		return strcasecmp(p1,p2);
+		return ignoreCase ? strcasecmp(p1,p2): strcmp(p1,p2);
 	}
 	
 	/*
@@ -143,14 +143,13 @@ int main(int argc,char *argv[]) {
 	strcmp原型为 int strcmp(const char *s1,const char *s2) 当然也可增加安全性
 	*/
 	int numcmp(const char *s1,const char *s2) {
-		char *lowerString(char *s);
 		const char *p1 = reverse ? s2 : s1;
 		const char *p2 = reverse ? s1: s2;
 		
 		double v1,v2;
 
-		v1 = ignoreCase ? atof(lowerString(p1)) : atof(p1);
-		v2 = ignoreCase ? atof(lowerString(p2)) : atof(p2);
+		v1 = atof(p1);
+		v2 = atof(p2);
 
 		if(v1<v2)
 			return -1;
@@ -158,18 +157,6 @@ int main(int argc,char *argv[]) {
 			return 1;
 		else 
 			return 0;
-	}
-	//将大写字符串转换为小写字符串，并返回字符串的头指针
-	char *lowerString( char *s) {
-	  	 char *tmp;
-
-		tmp = s;
-
-		while(*s != '\0' ) {
-			*s = tolower(*s++);
-		}
-
-		return tmp;
 	}
 
 	//交换两元素指针，以减少内存开销和元素的移动
