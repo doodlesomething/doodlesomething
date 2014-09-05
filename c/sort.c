@@ -152,3 +152,16 @@ int main() {
 			return 0;
 	}
 
+	/*
+	测试用例：
+	bcd
+	vad
+	abcdgd
+	drejoreiwr3
+	>>
+	abcdgd
+	bcd
+	drejoreiwr3
+	vad
+	*/
+
