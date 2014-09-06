@@ -52,8 +52,7 @@ int main(int argc,char argv[]) {
 
 	//输出
 	for(n = 0; n < NKEYS ;n++) {
-		if(keytab[n].count > 0)
-			printf("\n");
+		if(keytab[n].count > 0) 
 			printf("%4d %s\n",keytab[n].count,keytab[n].word);
 	}
 
