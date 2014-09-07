@@ -9,6 +9,11 @@ K&R 6.2 练习
 要求每一组内各变量名的前 6 个字符相同,其余字符不同。字符串和注释中的单词不予考虑。
 请将 6 作为一个可在命令行中设定的参数
 
+
+question:字符串和注释的单词不予考虑？？？
+
+说明：这里只是输出了具有变量名的前n个字符相同的字符串
+
  */
 
 #include <stdio.h>
@@ -47,8 +52,11 @@ int main(int argc,char *argv[]) {
 
 	//将返回是EOF的情况过滤
 	while( getword(word,MAXLEN) != EOF) { 
-		//将返回时特殊字符和数字的情况过滤
-		if(isalpha(word[0]) && (strlen(word) >= num) )
+		/*
+		将返回时特殊字符和数字的情况过滤  
+		这里将长度不满足的直接去掉，可以提高效率
+		*/
+		if(isalpha(word[0]) && (strlen(word)) > num )
 			root = addtree(root,word,num,&found);
 
 		//每个单词比较完了之后，置found为为匹配
@@ -119,9 +127,12 @@ int compare (char *s, struct tnode *p, int num, int *found)
 
 	char *t = p->word;
 	for(i = 0; *s == *t; i++,s++,t++)
-		if(*s == '\0')
+		if(*s == '\0') {
+			p->match = YES;
+			*found = YES;
 			//当两个字符串相等时不做处理
 			return 0;
+		}
 
 	if(i >= num) {         
 		*found = YES;
@@ -231,7 +242,21 @@ void ungetch(int c) {
 
 /*
    测试用例：
+	./groupingvar -2
+	now is now the thetime theo to do %%
+	>>
+	now 
 
-   >>
- 
+	the 
+	theto
+	thetime
+
+	./groupingvar -2
+	now is now the thetime tank tan
+	>>
+	now 
+	tan
+	tank
+	the
+	thetime
  */
