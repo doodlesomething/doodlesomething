@@ -33,13 +33,14 @@ int main(int argc,char *argv[]) {
 				fclose(fp);
 			}
 		}
-
+		//检测输出错误（尽管这种概率非常的小）-->工业级别
 		if(ferror(stdout) == 0) {
 			fprintf(stderr,"%s can't writing\n",progname);
 			exit(2);
 		}
 	}
 
+	//使用exit()可以让其他程序利用返回结果
 	exit(0);
 }
 	//将输入或标准输入流  复制到标准输出流中
