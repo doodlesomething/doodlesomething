@@ -16,10 +16,9 @@ int main(int argc,char *argv[]) {
 
 	int b,option;
 	char number[5],name[10];
-	LinkList *L;
+	LinkList L;
 
 	b = 1;
-	L = NULL;
 
 	while(b) {
 
@@ -33,7 +32,7 @@ int main(int argc,char *argv[]) {
 		switch(option) {
 			case 1:
 				printf("LinkList Create Begin:\n");
-				if(CreateList(L))
+				if(CreateList(&L))
 					printf("LinkList Create Success\n");
 				break;
 			case 2:
@@ -69,18 +68,34 @@ int main(int argc,char *argv[]) {
 	}
 }
 
+
 /*
 * createlist to store student information
 * @param LinkList *L
 * @return Status
 */
 Status CreateList(LinkList *L) {
+	LinkList *S,*q;
 
+	(*L) = (LinkList *) malloc(sizeof(struct LNode));
+	q = *L;
+	
+	while(1) {
+		S = InputData();
+		if(S == NULL) 
+			return ERROR;
+		q->next = S;
+		q = S;
+	}
+
+	q->next = NULL;
+
+	return OK;
 }
 
 
 /*
-* Handle single student information  -->For CreatList()
+* Handle single student information  -->For CreatList() and AddStudent()
 * @param void
 * @return LinkList *S
 */
@@ -114,4 +129,65 @@ LinkList *InputData(void) {
 }
 
 
+/*
+* Add Student Information on the tail
+* @param LinkList *L
+* @return Status
+*/
+Status AddStudent(LinkList *L) {
+	LinkList *p;
+	p = L->next;
+	while(p != NULL) 
+		p = p->next;
 
+	p = InputData();
+	if(p != NULL)
+		p->next = NULL;
+	else 
+		return ERROR;
+
+	return OK;
+}
+
+
+/*
+* Delete student information according to the student number
+* @parm LinkList *L
+* @param char *number
+* @return Status
+*/
+Status DeleteStudent(LinkList *L,char *number) {
+	LinkList *p,*q;
+
+	p = L->next;
+
+	while(p->next != NULL) {
+		if( (strcmp(p->StudentInfo.number,number)) == 0) {
+			p = p ->next;
+			return OK;
+		}
+		p = p->next;
+	}
+
+	return ERROR;
+}
+
+/*
+* find the student information according to the student name
+* @param LinkList *L
+* @param char *name
+* @return Status
+*/
+Status FindStudent(LinkList *L,char *name) {
+
+}
+
+/*
+* show single student information -->for function FindStudent() and ShowAll()
+* @param LinkList *p
+* @return void
+*/
+void ShowSingle(LinkList *p) {
+
+	printf("");
+}
