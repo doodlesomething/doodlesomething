@@ -26,7 +26,14 @@ typedef struct student  {
 typedef struct LNode {
 	struct LNode *next;
 	Student StudentInfo;
-} LinkList;
+};
+
+typedef struct LNode *LinkList;
 
 Status CreateList(LinkList *L);
 LinkList *InputData(void);
+Status AddStudent(LinkList *L);
+Status DeleteStudent(LinkList *L,char *number);
+Status FindStudent(LinkList *L,char *name);
+void ShowSingle(LinkList *p);
+
