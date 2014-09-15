@@ -39,24 +39,26 @@ int main(int argc,char *argv[]) {
 				AddStudent(L);
 				break;
 			case 3:
+				printf("please enter the student number you want to delete:");
 				scanf("%s",number);
 				DeleteStudent(L,number);
 				break;
 			case 4:
+				printf("Please enter the student name:");
 				scanf("%s",name);
-				FindeStudent(L,name);
+				FindStudent(L,name);
 				break;
 			case 5:
-				ListLength(L);
+				printf("There are %d students\n\n",ListLength(L));
 				break;
 			case 6:
 				SortList(L);
 				break;
 			case 7:
-				ShowAll(L);
+				ShowList(L);
 				break;
 			case 8:
-				DestoryList(L);
+				DestoryList(&L);
 				break;
 			case 9:
 				b=0;
@@ -75,9 +77,9 @@ int main(int argc,char *argv[]) {
 * @return Status
 */
 Status CreateList(LinkList *L) {
-	LinkList *S,*q;
+	LinkList S,q;
 
-	(*L) = (LinkList *) malloc(sizeof(struct LNode));
+	(*L) = (LinkList) malloc(sizeof(struct LNode));
 	q = *L;
 	
 	while(1) {
@@ -99,8 +101,8 @@ Status CreateList(LinkList *L) {
 * @param void
 * @return LinkList *S
 */
-LinkList *InputData(void) {
-	LinkList *S;
+LinkList InputData(void) {
+	LinkList S;
 	char number[5];
 
 	S = NULL;
@@ -113,13 +115,13 @@ LinkList *InputData(void) {
 	if(strlen(number) > 5)
 		number[4] = '\0';
 
-	S = (LinkList *) malloc(sizeof(struct LNode));
+	S = (LinkList) malloc(sizeof(struct LNode));
 
 	if(S != NULL) {
 		strcpy(S->StudentInfo.number,number);
 
 		printf("\tname:");
-		scanf("%s",&S->StudentInfo.name);
+		scanf("%s",S->StudentInfo.name);
 
 		printf("\tscore:");
 		scanf("%d",&S->StudentInfo.score);
@@ -134,18 +136,14 @@ LinkList *InputData(void) {
 * @param LinkList *L
 * @return Status
 */
-Status AddStudent(LinkList *L) {
-	LinkList *p;
-	p = L->next;
-	while(p != NULL) 
+Status AddStudent(LinkList L) {
+	LinkList p;
+	p = L;
+	while(p->next != NULL) 
 		p = p->next;
 
-	p = InputData();
-	if(p != NULL)
-		p->next = NULL;
-	else 
-		return ERROR;
-
+	p->next = InputData();
+	p->next->next = NULL;
 	return OK;
 }
 
@@ -156,14 +154,16 @@ Status AddStudent(LinkList *L) {
 * @param char *number
 * @return Status
 */
-Status DeleteStudent(LinkList *L,char *number) {
-	LinkList *p,*q;
+Status DeleteStudent(LinkList L,char *number) {
+	LinkList p,q;
 
-	p = L->next;
+	p = L;
 
-	while(p->next != NULL) {
-		if( (strcmp(p->StudentInfo.number,number)) == 0) {
-			p = p ->next;
+	while(p != NULL) {
+		if( (strcmp(p->next->StudentInfo.number,number)) == 0) {
+			q = p ->next;
+			p->next = q->next;
+			free(q);
 			return OK;
 		}
 		p = p->next;
@@ -178,8 +178,20 @@ Status DeleteStudent(LinkList *L,char *number) {
 * @param char *name
 * @return Status
 */
-Status FindStudent(LinkList *L,char *name) {
+Status FindStudent(LinkList L,char *name) {
+	LinkList p;
+	p = L->next;
 
+	while(p != NULL) {
+		if(strcmp(p->StudentInfo.name,name) == 0) {
+			printf("\tnumber \t\t name \t\t score\n");
+			ShowSingle(p);
+			printf("\n");
+			return OK;
+		}
+		p = p->next;
+	}
+	return ERROR;
 }
 
 /*
@@ -187,7 +199,93 @@ Status FindStudent(LinkList *L,char *name) {
 * @param LinkList *p
 * @return void
 */
-void ShowSingle(LinkList *p) {
+void ShowSingle(LinkList p) {
+	printf("\t%s \t\t %s \t\t %d\n",p->StudentInfo.number,p->StudentInfo.name,p->StudentInfo.score);
+}
 
-	printf("");
+
+/*
+* get the length of the linklist
+* @param LinkList *L
+* @return int len
+*/
+int ListLength(LinkList L) {
+	int i;
+	LinkList p;
+
+	p = L;
+	i = 0;
+
+	if(p == NULL)
+		return 0;
+	else {
+		while(p->next != NULL) {
+			i++;
+			p = p->next;
+		}
+		return i;
+	}
+}
+
+
+/*
+* Sort the linklist accroding to the student score -->Bubble Sort
+* @param LinkList *L
+* @return void
+*/
+void SortList(LinkList L) {
+	LinkList  p,q,tmp,temp;
+	p = L->next;
+	//外层循环只是起到了计数的作用
+	while(p != NULL) {
+		q = L;
+		while(q->next->next != NULL) {
+
+			if( (q->next->StudentInfo.score > q->next->next->StudentInfo.score) ) {
+				tmp = q->next;
+				q->next = tmp->next;
+				temp = tmp->next->next;
+				tmp->next->next = tmp;
+				tmp->next = temp;
+			}
+
+			q = q->next;
+		}
+
+		p = p->next;
+	}
+}
+
+/*
+* show all the student information
+* @param LinkList *L
+* @return void
+*/
+void ShowList(LinkList L) {
+	LinkList p;
+	
+	p = L->next;
+	printf("\tnumber \t\t name \t\t score\n");
+
+	while(p != NULL) {
+		ShowSingle(p);
+		p = p->next;
+	}
+	printf("\n");
+}
+
+/*
+* destory the linklist
+* @param LinkList *L
+* @return Status
+*/
+Status DestoryList(LinkList *L) {
+	LinkList tmp;
+	
+	while(*L != NULL) {
+		tmp = (*L)->next;
+		free(*L);
+		*L = tmp;
+	}
+	return OK;
 }
