@@ -23,7 +23,7 @@ typedef struct student  {
 	ElemType score;
 }Student;
 
-typedef struct LNode {
+ struct LNode {
 	struct LNode *next;
 	Student StudentInfo;
 };
@@ -31,9 +31,12 @@ typedef struct LNode {
 typedef struct LNode *LinkList;
 
 Status CreateList(LinkList *L);
-LinkList *InputData(void);
-Status AddStudent(LinkList *L);
-Status DeleteStudent(LinkList *L,char *number);
-Status FindStudent(LinkList *L,char *name);
-void ShowSingle(LinkList *p);
-
+LinkList InputData(void);
+Status AddStudent(LinkList L);
+Status DeleteStudent(LinkList L,char *number);
+Status FindStudent(LinkList L,char *name);
+void ShowSingle(LinkList p);
+int ListLength(LinkList L);
+void SortList(LinkList L);
+void ShowList(LinkList L);
+Status DestoryList(LinkList *L);
