@@ -4,6 +4,7 @@
 	* author:doodlesomething -->doodlesomething@163.com
 	* detail: a student information manger system
 	* function :CRUD
+	* somethingelse: 程序没有做输入检测等因为这不是重点
 --------------------------------------------------------------------------*/
 
 #include <stdio.h>
@@ -19,6 +20,7 @@ int main(int argc,char *argv[]) {
 	LinkList L;
 
 	b = 1;
+	L = NULL;
 
 	while(b) {
 
@@ -31,9 +33,13 @@ int main(int argc,char *argv[]) {
 
 		switch(option) {
 			case 1:
-				printf("LinkList Create Begin:\n");
-				if(CreateList(&L))
-					printf("LinkList Create Success\n");
+				if(L == NULL) {
+					printf("LinkList Create Begin:\n");
+					if(CreateList(&L))
+						printf("LinkList Create Success\n");
+				}
+				else 
+					printf("The LinkList is already exists.\n");
 				break;
 			case 2:
 				AddStudent(L);
