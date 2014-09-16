@@ -27,3 +27,5 @@ Status ListDelete(LinkList L,int i,ElemType *e);
 Status ListTraverse(LinkList L,void (*vist)(ElemType));
 void CreateList(LinkList *L,int n);
 void CreateListReverse(LinkList *L,int n);
+void UnionList(LinkList La,LinkList Lb);
+void MergeList(LinkList *La,LinkList *Lb,LinkList *Lc);
