@@ -29,3 +29,5 @@ void CreateList(LinkList *L,int n);
 void CreateListReverse(LinkList *L,int n);
 void UnionList(LinkList La,LinkList Lb);
 void MergeList(LinkList *La,LinkList *Lb,LinkList *Lc);
+void DistinctSort(LinkList L);
+void ListReverse(LinkList L);
