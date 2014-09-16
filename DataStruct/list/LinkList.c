@@ -22,7 +22,7 @@ int main(int argc,char *argv[]) {
 	scanf("%d",&n2);
 	CreateList(&Lb,n2);
 	printf("\n");
-	MergeList(La,Lb,&Lc);
+	MergeList(&La,&Lb,&Lc);
 	ListTraverse(Lc,vist);
 }
 
@@ -48,48 +48,37 @@ void UnionList(LinkList La,LinkList Lb) {
 }
 
 /*
-* MergeList  两个有序的单链表，将其合并保证有序性，重复的元素保留-->使用第三个单链表存储
+* MergeList 合并两个有序链表保持依然有序，不允许开辟新的内存空间  
 * @param LinkList La
 * @param LinkList Lb
 * @param LinkList Lc
 * @return void
 */
-void MergeList(LinkList La,LinkList Lb,LinkList *Lc) {
-	InitList(Lc);
+void MergeList(LinkList *La,LinkList *Lb,LinkList *Lc) {
+	LinkList pa,pb,pc;
 
-	int i,j,k;
-	int la,lb;
-	int ai,bj;
-	
-	i = j =1;
-	k = 0;
-	la = ListLength(La);
-	lb = ListLength(Lb);
+	pa =(*La)->next;
+	pb =(*Lb)->next;
 
-	while( (i <= la) && (j <= lb)) {
-		GetElem(La,i,&ai);
-		GetElem(Lb,j,&bj);
+	//把La链表的头结点用作Lc链表的头结点
+	*Lc = pc = *La;	
 
-		if(ai <= bj) {
-			ListInsert(*Lc,++k,ai);
-			++i;
+	while(pa && pb) {
+		if(pa->data <= pb->data) {
+			pc->next = pa;
+			pc = pa;
+			pa = pa->next;
 		}
 		else {
-			ListInsert(*Lc,++k,bj);
-			++j;
+			pc->next = pb;
+			pc = pb;
+			pb = pb->next;
 		}
 	}
+	//处理剩余节点
+	pc->next = pa ? pa : pb;
 
-	//还有没有插入Lc中的继续插入
-	while(i <= la) {
-		GetElem(La,i++,&ai);
-		ListInsert(*Lc,++k,ai);
-	}
-
-	while(j <= lb) {
-		GetElem(Lb,j++,&bj);
-		ListInsert(*Lc,++k,bj);
-	}
+	free(*Lb);
 }
 
 
