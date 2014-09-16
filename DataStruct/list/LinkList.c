@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------
-	* date:9-11-2014
+	* date:9-16-2014
 	* author:doodlesomething  --> doodlesomething@163.com
-	* version:1.0
+	* version:1.2
 	* description:实现带头结点单链表的初始化/判空/插入/删除/销毁/查找
 	  前驱节点和后继节点元素/元素定位/
 --------------------------------------------------------------------------*/
@@ -23,6 +23,9 @@ int main(int argc,char *argv[]) {
 	CreateList(&Lb,n2);
 	printf("\n");
 	MergeList(&La,&Lb,&Lc);
+	DistinctSort(Lc);
+	ListTraverse(Lc,vist);
+	ListReverse(Lc);
 	ListTraverse(Lc,vist);
 }
 
@@ -80,6 +83,50 @@ void MergeList(LinkList *La,LinkList *Lb,LinkList *Lc) {
 
 	free(*Lb);
 }
+
+/*
+* 将有序链表中的重复元素去掉 -->因为有序所以重复的值必定相邻
+* @param LinkList L
+* @return void
+*/
+void DistinctSort(LinkList L) {
+	LinkList p,tmp;
+	p = L->next;
+	while(p->next != NULL) {
+		tmp = p->next;
+		if(p->data == tmp->data) {
+			p ->next = tmp->next;
+			free(tmp);
+		}
+		p = p->next; 
+	}
+}
+
+/*
+* 就地逆置单链表
+* @description:将头结点和第一个节点"作为"一个链表,第一个节点的next为NULL。剩下的为连一个链表，顺序将每个节点
+		插入到头结点和第一个节点间
+* @param LinkList L
+* @return void
+*/
+void ListReverse(LinkList L) {
+	LinkList p,tmp,q;
+	p = L->next;
+
+	if(p != NULL && p->next != NULL) {
+		q = p->next;
+		p ->next = NULL;
+
+		while(q) {
+			L->next = q;
+			tmp = q->next;
+			q->next = p;
+			p = q;
+			q = tmp;
+		}
+	}
+}
+
 
 
 /*
