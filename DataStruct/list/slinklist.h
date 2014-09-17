@@ -10,6 +10,8 @@
 #define OK 1
 #define ERROR 0
 #define MAXSIZE 1000
+#define TRUE 1
+#define FALSE 0
 
 typedef int ElemType;
 typedef int Status;
@@ -27,3 +29,10 @@ void Free_SL(SLinkList L,int k);
 Status ListDelete(SLinkList L,int i);
 void ListTraverse(SLinkList L,void (*visit) (ElemType));
 void visit(ElemType elem);
+void DestoryList(SLinkList L);
+void ClearList(SLinkList);
+Status GetElem(SLinkList L,int i,ElemType *elem);
+int LocateElem(SLinkList L,ElemType elem);
+Status PreElem(SLinkList L,ElemType elem,ElemType *pre_e);
+Status NextElem(SLinkList L,ElemType elem,ElemType *next_e);
+Status ListEmpty(SLinkList L);
