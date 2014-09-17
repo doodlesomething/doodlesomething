@@ -38,6 +38,16 @@ int main(int argc,char *argv[]) {
 	printf("Length:%d\n",ListLength(L));
 	ListTraverse(L,visit);
 	printf("\n");
+	
+	/*
+	上述测试用例结果：
+
+	5	4	3	2	1	
+	Length:5, GetElem:1 ,LocateElem:1 
+	PreElem:3, NextElem:1 ,IsEempty:0
+	Length:4
+	5	3	2	1	
+	*/
 }
 
 
@@ -330,3 +340,17 @@ void ListTraverse(SLinkList L,void (*visit) (ElemType)) {
 void visit(ElemType elem) {
 	printf("%d\t",elem);
 }
+
+
+/*
+静态链表总结：
+
+缺点：
+1.没有解决连镇存储分配带来的表长难以确定的问题
+2.失去了存储结构随机存取的特性
+
+优点：
+在插入和删除操作时 ,只需要修改游标,不需
+要移动元素,从而改进了在顺序存储结构中的
+插人和删除操作需要移动大量元素的缺点
+*/
