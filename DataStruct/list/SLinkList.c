@@ -341,6 +341,75 @@ void visit(ElemType elem) {
 	printf("%d\t",elem);
 }
 
+/*
+* @求集合 （A-B） U （B-A）
+* @param SLinkList L
+* @param int S
+* @return void
+*/
+void DifferenceList(SLinkList L)  {
+	int r,i,p,k,S;
+	int j,tmp;
+	int la,lb;
+
+	InitList(L);
+	S = Malloc_SL(L);
+	r = S;
+
+	printf("Enter the number of La and Lb:");
+	scanf("%d %d\n",&la,&lb);
+	//输入A集合
+	for(j = 0; j < la; j++) {
+		i = Malloc_SL(L);
+		scanf("%d",&L[i].data);
+		L[r].cur = i;
+		r = i;
+	}
+	L[r].cur = 0;
+
+	for(j = 0; j < lb; j++) {
+		scanf("%d",&tmp);
+		p = S;
+		k = L[S].cur;
+
+		while(k != L[r].cur && L[k].data != tmp) {
+			/*
+			由于删除元素需要调整前一个元素的游标
+			p 指向前一个元素，k指向所要比较的元素
+			*/
+			p = k;
+			k = L[k].cur;
+		}
+
+		
+		if( k == L[r].cur) {
+			i = Malloc_SL(L);
+			L[i].data = tmp;
+			L[i].cur = L[r].cur;
+			L[r].cur = i;
+		}
+		else {
+			L[p].cur = L[k].cur; 
+			Free_SL(L,k);
+			//当所删除的节点为最后一个是应该调整尾指针
+			if(r == k)
+				r = p;
+		}
+	}
+}
+
+/*
+Difference 测试用例：
+Enter the number of La and Lb:6 4
+1 2 3 4 5 6
+7 6 8 4
+>>
+	1 2 3 5 8 7
+*/
+
+
+
+
 
 /*
 静态链表总结：
