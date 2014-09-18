@@ -36,3 +36,4 @@ int LocateElem(SLinkList L,ElemType elem);
 Status PreElem(SLinkList L,ElemType elem,ElemType *pre_e);
 Status NextElem(SLinkList L,ElemType elem,ElemType *next_e);
 Status ListEmpty(SLinkList L);
+void DifferenceList(SLinkList L);
