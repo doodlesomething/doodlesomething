@@ -1,6 +1,6 @@
 
 /*--------------------------------------------------------------------
-	* file:circulalist.h -->head file for CirLinkList.c 
+	* file:circulalist.h -->head file for CirculaList.c 
 	* date: 9-18-2014
 	* author: doodlesomething@163.com
 	* version:1.0
@@ -29,3 +29,6 @@ void visit(ElemType elem);
 Status GetHead(LinkList rear,ElemType *elem);
 Status GetLast(LinkList rear,ElemType *elem);
 LinkList MergeList(LinkList rearA,LinkList rearB);
+int ListLength(LinkList L);
+Status ListInsert(LinkList L,int i,ElemType elem);
+Status ListDelete(LinkList L,int i,ElemType *elem);
