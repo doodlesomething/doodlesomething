@@ -23,4 +23,12 @@ struct LNode {
 
 typedef struct LNode *LinkList;
 
-
+Status InitLength(LinkList L);
+int ListLength(LinkList L);
+Status NextElem(LinkList L,ElemType elem,ElemType *next_e);
+Status PriorElem(LinkList L,ElemType elem,ElemType *pre_e);
+LinkList GetElemP(LinkList L,int i);
+Status ListInsert(LinkList L,int i,ElemType elem);
+Status ListDelete(LinkList L,int i,ElemType *elem);
+void ListTraverse(LinkList L,void (*visit) (ElemType));
+void visit(ElemType elem);
