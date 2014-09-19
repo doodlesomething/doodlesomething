@@ -6,6 +6,7 @@
 
 typedef int ElemType;
 typedef int Status;
+
 struct LNode {
 	ElemType data;
 	struct LNode *next;
@@ -31,3 +32,8 @@ void UnionList(LinkList La,LinkList Lb);
 void MergeList(LinkList *La,LinkList *Lb,LinkList *Lc);
 void DistinctSort(LinkList L);
 void ListReverse(LinkList L);
+void visit(ElemType elem);
+void SplitList(LinkList La,LinkList Lb,LinkList Lc);
+void DeleteInRange(LinkList L,ElemType min,ElemType max);
+Status IsIncreasingList(LinkList L);
+void DistinctList(LinkList L);
