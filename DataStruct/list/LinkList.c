@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------
 	* date:9-16-2014
 	* author:doodlesomething  --> doodlesomething@163.com
-	* version:1.2
+	* version:1.3
 	* description:实现带头结点单链表的初始化/判空/插入/删除/销毁/查找
 	  前驱节点和后继节点元素/元素定位/
 --------------------------------------------------------------------------*/
@@ -12,21 +12,30 @@
 
 
 int main(int argc,char *argv[]) {
-	void vist(ElemType e);
 	LinkList La,Lb,Lc;
-	int n1,n2;
-	printf("please enter the length for linklist one:");
-	scanf("%d",&n1);
-	CreateList(&La,n1);
-	printf("\nplease enter the length for linklist two:");
-	scanf("%d",&n2);
-	CreateList(&Lb,n2);
+	int i;
+
+	InitList(&La);
+	InitList(&Lb);
+	InitList(&Lc);
+
+	for(i = 1; i < 7; i++ )
+		ListInsert(La,1,i);
+	ListTraverse(La,visit);
 	printf("\n");
-	MergeList(&La,&Lb,&Lc);
-	DistinctSort(Lc);
-	ListTraverse(Lc,vist);
-	ListReverse(Lc);
-	ListTraverse(Lc,vist);
+	SplitList(La,Lb,Lc);
+	ListTraverse(Lb,visit);
+	ListTraverse(Lc,visit);
+	printf("%d\n",IsIncreasingList(La));
+	ListReverse(La);
+	printf("%d\n",IsIncreasingList(La));
+	DeleteInRange(La,1,4);
+	ListInsert(La,2,4);
+	ListInsert(La,4,1);
+	ListTraverse(La,visit);
+	DistinctList(La);
+	ListTraverse(La,visit);
+	printf("\n");
 }
 
 
@@ -51,7 +60,7 @@ void UnionList(LinkList La,LinkList Lb) {
 }
 
 /*
-* MergeList 合并两个有序链表保持依然有序，不允许开辟新的内存空间  
+* MergeList 合并两个有序递增链表保持依然有序，不允许开辟新的内存空间  
 * @param LinkList La
 * @param LinkList Lb
 * @param LinkList Lc
@@ -85,7 +94,7 @@ void MergeList(LinkList *La,LinkList *Lb,LinkList *Lc) {
 }
 
 /*
-* 将有序链表中的重复元素去掉 -->因为有序所以重复的值必定相邻
+* 将有序递增链表中的重复元素去掉 -->因为有序所以重复的值必定相邻
 * @param LinkList L
 * @return void
 */
@@ -100,6 +109,35 @@ void DistinctSort(LinkList L) {
 		}
 		p = p->next; 
 	}
+}
+
+/*
+* @description 删除无序链表中的重复节点
+* @param LinkList L
+* @return void
+*/
+void DistinctList(LinkList L) {
+	LinkList p,tmp,q,r;
+	
+	p = q = L;
+
+	while( p->next != NULL) {
+		tmp = q->next;
+
+		while(tmp != NULL) {
+
+			if(p->next->data == tmp->data && tmp != p->next) {
+				r = p->next;
+				p->next = r->next;
+				free(r);
+			}
+
+			tmp = tmp->next;
+		}
+
+		p = p->next;
+	}
+	
 }
 
 /*
@@ -127,6 +165,93 @@ void ListReverse(LinkList L) {
 	}
 }
 
+/*
+* @description 链表练习--->存在一个单链表为{a1,b1,a2,b2,..,an,bn}请将其分为{a1,a2,..,an}和{b1,b2,...,bn} 
+* @param LinkList La
+* @param LinkList Lb
+* @Param LinkList Lc
+* @return void
+*/
+void SplitList(LinkList La,LinkList Lb,LinkList Lc) {
+	LinkList p,pb,pc;
+	int i,j;
+
+	i = j =1;
+	p = La->next;
+	pb = Lb;
+	pc = Lc;
+
+	while(p != NULL) {
+		ListInsert(Lb,i++,p->data);
+		pb = p;
+
+		p = p->next;
+		if(p != NULL) {
+			ListInsert(Lc,j++,p->data);
+			pc = p;
+			p = p->next;
+		}
+	}
+
+	//一定要记住要Lb,Lc的最后节点next置空,但不要删除尾节点
+	pb->next == NULL ? (pb->next = NULL) : (pb->next->next = NULL);
+	pc->next == NULL ? (pc->next = NULL) : (pc->next->next = NULL);
+}
+
+/*
+* @descripton 删除有序递增链表中中大于min和小于max的值 -->无序的链表删除更加简单
+* @param LinkList L
+* @param ElmeType min
+* @param ElemType max
+* @return void
+*/
+void DeleteInRange(LinkList L,ElemType min,ElemType max) {
+	LinkList p,start,end,tmp;
+
+	p = L->next;
+
+	while(p != NULL && p->data < min)
+		p = p->next;
+
+	start = p;
+
+	while(p !=  NULL && p->data < max)
+		p = p->next;
+	
+	end = p;
+	
+	start->next = end;
+
+	/*释放节点
+	while(start != end) {
+		tmp = start->next;
+		start = tmp->next;
+		free(tmp);
+	}
+	*/
+}
+
+
+/*
+* @description 判断一个链表是否单调递增 -->如果发现一个前一个节点的值大于后一个节点的值则不为单调递减
+* @param LinkList L
+* @return Status
+*/
+Status IsIncreasingList(LinkList L) {
+	LinkList p,tmp;
+	p= L->next;
+	
+	while(p->next != NULL) {
+		tmp = p->next;
+
+		if(p->data > tmp->data)
+			return FALSE;
+
+		p = p->next;
+	}
+
+	return TRUE;
+}
 
 
 /*
@@ -134,7 +259,7 @@ void ListReverse(LinkList L) {
 * @param ElemType e
 * @return void
 */
-void vist(ElemType e) {
+void visit(ElemType e) {
 	printf("%d\t",e);
 }
 
@@ -374,7 +499,7 @@ Status ListDelete(LinkList L,int i,ElemType *e) {
 /*
 * 对链表中每个元素调用visit()函数
 * @param LinkList L
-* @param void(*vist)(ElemType)
+* @param void(*visit)(ElemType)
 * @return Status
 */
 Status ListTraverse(LinkList L,void (*visit)(ElemType)) {
