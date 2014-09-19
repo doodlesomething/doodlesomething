@@ -34,6 +34,9 @@ int main(int argc,char *argv[]) {
 	ListInsert(La,4,1);
 	ListTraverse(La,visit);
 	DistinctList(La);
+	DeleteMin(La);
+	ListTraverse(La,visit);
+	ListReverse1(La);
 	ListTraverse(La,visit);
 	printf("\n");
 }
@@ -140,10 +143,37 @@ void DistinctList(LinkList L) {
 	
 }
 
+
+/*
+* @description 删除链表中最小值 -->将第一个值设为最小值，然后一边一边调整min的值,注意在遍历的过程中记录前驱
+* @param LinkList L
+* @return void
+*/
+void DeleteMin(LinkList L) {
+	LinkList p,minpre,min,pre;
+	
+	pre = L;
+	p = L->next;
+	minpre = pre;
+	min = p;
+
+	while(p != NULL) {
+		if(p->data < min->data) {
+			min = p;
+			minpre = pre;
+		}
+		pre = p; 
+		p = p->next;
+	}
+
+	minpre->next = min->next;
+	free(min);
+}
+
 /*
 * 就地逆置单链表
 * @description:将头结点和第一个节点"作为"一个链表,第一个节点的next为NULL。剩下的为连一个链表，顺序将每个节点
-		插入到头结点和第一个节点间
+		插入到头结点和"第一个"节点间
 * @param LinkList L
 * @return void
 */
@@ -164,6 +194,31 @@ void ListReverse(LinkList L) {
 		}
 	}
 }
+
+/*
+* 原地转置链表的另一种解法-->这是从网上看来的，感觉非常有意思
+* 理解上只要看出p永远为头节点后的第一个节点即可
+*/
+void ListReverse1(LinkList L) {
+	LinkList p,tmp,q;
+	p = L->next;
+
+	if(p != NULL && p->next != NULL) {
+		q = p->next;
+		p->next = NULL;
+	}
+
+	while(q) {
+		tmp = q->next;
+		q->next = p;
+		p = q;
+		q = tmp;
+	}
+
+	L->next = p;
+}
+
+
 
 /*
 * @description 链表练习--->存在一个单链表为{a1,b1,a2,b2,..,an,bn}请将其分为{a1,a2,..,an}和{b1,b2,...,bn} 
