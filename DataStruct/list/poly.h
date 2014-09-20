@@ -33,12 +33,13 @@ typedef struct {
 typedef  LinkList Poly;
 
 
-Status InitList(Poly Po);
+Status InitList(Poly *Po);
 Position GetHead(Poly Po);
 void SetCurElem(Link h,ElemType e);
-void CreatePoly(Poly Po,int n);
-void InsFirst(Poly Po,Link q,Link s);
+void CreatePoly(Poly *Po,int n);
+void InsFirst(Poly *Po,Link q,Link s);
 Status MakeNode(Link *s,ElemType e);
 Status LocateElem(Poly Po,ElemType e,Link *q,Status (*compare) (ElemType,ElemType));
 Status compare(ElemType ta,ElemType tb);
 void PrintPoly(Poly Po);
+void AddPoly(Poly *Pa,Poly *Pb);
