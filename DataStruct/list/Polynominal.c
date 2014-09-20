@@ -27,16 +27,15 @@ int main(int argc,char *argv[]) {
 			case 0:
 				printf("Please enter the length of the PolyA:");
 				scanf("%d",&n);
-				CreatePoly(Pa,n);
+				CreatePoly(&Pa,n);
 				break;
 			case 1:
 				printf("Please enter the length of the PolyB");
 				scanf("%d",&n);
-				CreatePoly(Pb,n);
+				CreatePoly(&Pb,n);
 				break;
 			case 2:
-				printf("\n%d\n",ListLength(Pa));
-				//AddPoly(Pa,Pb);
+				AddPoly(&Pa,&Pb);
 				break;
 			case 3:
 				//SubtractPoly(Pa,Pb);
@@ -72,15 +71,15 @@ int main(int argc,char *argv[]) {
 * @param Poly Po
 * @return Status
 */
-Status InitList(Poly Po) {
+Status InitList(Poly *Po) {
 
 	Link p;
 	p = (Link) malloc(sizeof(struct LNode));
 
 	if(p != NULL) {
 		p->next = NULL;
-		Po.head = Po.tail = p;
-		Po.len = 0;
+		(*Po).head = (*Po).tail = p;
+		(*Po).len = 0;
 		return OK;
 	}
 	return ERROR;
@@ -115,7 +114,7 @@ void SetCurElem(Link h,ElemType e)  {
 * @param int n
 * @return void
 */
-void CreatePoly(Poly Po,int n) {
+void CreatePoly(Poly *Po,int n) {
 	InitList(Po);
 
 	Position q,s,h;
@@ -123,7 +122,7 @@ void CreatePoly(Poly Po,int n) {
 
 	term e;
 	
-	h = GetHead(Po);
+	h = GetHead(*Po);
 	e.coef = 0;
 	e.expn = -1;
 
@@ -134,7 +133,7 @@ void CreatePoly(Poly Po,int n) {
 	for(i = 0; i < n; i++) {
 		scanf("%d,%d;",&e.coef,&e.expn);
 		
-		if(!LocateElem(Po,e,&q,compare)) {
+		if(!LocateElem(*Po,e,&q,compare)) {
 			if(MakeNode(&s,e))
 				InsFirst(Po,q,s);
 		}
@@ -144,14 +143,14 @@ void CreatePoly(Poly Po,int n) {
 /*
 * @description 将生成的节点插入链表中
 */
-void InsFirst(Poly Po,Link q,Link s) {
+void InsFirst(Poly *Po,Link q,Link s) {
 	s->next = q->next;
 	q->next = s;
 	
-	Po.len++;
+	(*Po).len++;
 
-	if(q == Po.tail)
-		Po.tail = q->next;
+	if(q == (*Po).tail)
+		(*Po).tail = q->next;
 }
 
 /*
@@ -218,8 +217,13 @@ void PrintPoly(Poly Po) {
 	printf("\t\t系数    指数:\n");
 
 	while(p != NULL) {
-		printf("\t\t%d   %d\n",p->data.coef,p->data.expn);
+		printf("\t\t %d        %d\n",p->data.coef,p->data.expn);
 		p = p->next;
 	}
 
 }
+
+
+/*
+
+*/
