@@ -43,3 +43,9 @@ Status LocateElem(Poly Po,ElemType e,Link *q,Status (*compare) (ElemType,ElemTyp
 Status compare(ElemType ta,ElemType tb);
 void PrintPoly(Poly Po);
 void AddPoly(Poly *Pa,Poly *Pb);
+void Append(Poly *Po,Link pb);
+Position NextPos(Link p);
+Status DeleFirst(Poly *Po,Link h,Link *p);
+void FreeNode(Link p);
+ElemType GetCurElem(Link p);
+Status ListEmpty(Poly Po);
