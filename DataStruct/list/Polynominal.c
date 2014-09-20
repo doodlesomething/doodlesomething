@@ -18,8 +18,8 @@ int main(int argc,char *argv[]) {
 	
 	while(b)  {
 		printf("-----------一元多项式的运算------------------------\n");
-		printf("      <0>创建A  <1>创建B   <2>相加    <3>相减  \n");
-		printf("      <4>相乘   <5>打印A   <6>打印B   <7>退出  \n");
+		printf("      <0>创建A  <1>创建B   <2>相加     \n");
+		printf("        <5>打印A   <6>打印B   <7>退出  \n");
 		printf("Please option the menu:");
 		scanf("%d",&option);
 
@@ -225,5 +225,122 @@ void PrintPoly(Poly Po) {
 
 
 /*
-
+* @description 二项式相加
+* @param Poly *Pa
+* @param Poly *Pb
+* @return void
+* @detail 多项式相加有三种情况：
+	1.
+	2.
+	3.
 */
+void AddPoly(Poly *Pa,Poly *Pb) {
+	//ha的作用类似与前驱节点，方便删除节点
+	Link ha,hb,pa,pb;
+	term ta,tb;
+	
+	ha = GetHead(*Pa);
+	hb = GetHead(*Pb);
+	
+	pa = NextPos(ha);
+	pb = NextPos(hb);
+
+	while(pa && pb) {
+		ta = GetCurElem(pa);
+		tb = GetCurElem(pb);
+
+		switch(compare(ta,tb)) {
+			case -1:
+				ha = pa;
+				pa = NextPos(ha);
+				break;
+			case 0:
+				pa->data.coef +=  pb->data.coef;
+				
+				if(pa->data.coef != 0) {
+					SetCurElem(pa,pa->data);
+					ha = pa;
+				}
+				else {
+					DeleFirst(Pa,ha,&pa);
+					FreeNode(pa);
+				}
+				
+				DeleFirst(Pb,hb,&pb);
+				FreeNode(pb);
+				pa = NextPos(ha);
+				pb = NextPos(hb);
+				break;
+			case 1:
+				DeleFirst(Pb,hb,&pb);
+				InsFirst(Pa,ha,pb);
+				FreeNode(pb);
+				pa = NextPos(ha);
+				pb = NextPos(hb);
+				break;
+		}
+	}
+
+	if(!ListEmpty(*Pb))
+		Append(Pa,pb);
+	//将Pb头结点释放
+	FreeNode(hb);
+}
+
+//将剩余的链接到Pa中
+void Append(Poly *Po,Link pb) {
+	int i;
+
+	i = 0;	
+	(*Po).tail->next = pb;
+
+	while(pb) {
+		pb = pb->next;
+		i++;
+	}
+
+	(*Po).tail = pb;
+	(*Po).len += i;
+}
+
+
+//返回下一个节点的位置
+Position NextPos(Link p) {
+	return p->next;
+}
+
+//删除节点
+Status DeleFirst(Poly *Po,Link h,Link *p) {
+	(*p) = h->next;
+	if(*p) {
+		h->next = (*p)->next;
+		if(!h->next)
+			(*Po).tail = h;
+
+		(*Po).len--;
+		return OK;
+	}
+	else 
+		return ERROR;
+
+	
+}
+
+//释放节点
+void FreeNode(Link p) {
+	free(p);
+}
+
+//获取当前节点的值
+ElemType GetCurElem(Link p) {
+	return p->data;
+}
+
+/*
+* @description 判空
+*/
+Status ListEmpty(Poly Po) {
+	return Po.len > 0 ? FALSE : TRUE;
+}
+
+
