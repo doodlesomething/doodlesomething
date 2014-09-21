@@ -5,41 +5,10 @@
 	* description:实现带头结点单链表的初始化/判空/插入/删除/销毁/查找
 	  前驱节点和后继节点元素/元素定位/
 --------------------------------------------------------------------------*/
-
+#include "linklist.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "linklist.h"
 
-
-int main(int argc,char *argv[]) {
-	LinkList La,Lb,Lc;
-	int i;
-
-	InitList(&La);
-	InitList(&Lb);
-	InitList(&Lc);
-
-	for(i = 1; i < 7; i++ )
-		ListInsert(La,1,i);
-	ListTraverse(La,visit);
-	printf("\n");
-	SplitList(La,Lb,Lc);
-	ListTraverse(Lb,visit);
-	ListTraverse(Lc,visit);
-	printf("%d\n",IsIncreasingList(La));
-	ListReverse(La);
-	printf("%d\n",IsIncreasingList(La));
-	DeleteInRange(La,1,4);
-	ListInsert(La,2,4);
-	ListInsert(La,4,1);
-	ListTraverse(La,visit);
-	DistinctList(La);
-	DeleteMin(La);
-	ListTraverse(La,visit);
-	ListReverse1(La);
-	ListTraverse(La,visit);
-	printf("\n");
-}
 
 
 /*
@@ -202,6 +171,7 @@ void ListReverse(LinkList L) {
 void ListReverse1(LinkList L) {
 	LinkList p,tmp,q;
 	p = L->next;
+	q = NULL;
 
 	if(p != NULL && p->next != NULL) {
 		q = p->next;
@@ -261,7 +231,7 @@ void SplitList(LinkList La,LinkList Lb,LinkList Lc) {
 * @return void
 */
 void DeleteInRange(LinkList L,ElemType min,ElemType max) {
-	LinkList p,start,end,tmp;
+	LinkList p,start,end;
 
 	p = L->next;
 
@@ -278,6 +248,7 @@ void DeleteInRange(LinkList L,ElemType min,ElemType max) {
 	start->next = end;
 
 	/*释放节点
+	LinkList tmp;
 	while(start != end) {
 		tmp = start->next;
 		start = tmp->next;
@@ -498,7 +469,7 @@ Status NextElem(LinkList L,ElemType cur_e,ElemType *next_e) {
 * @return Status
 */
 Status ListInsert(LinkList L,int i,ElemType e) {
-	LinkList p,q,tmp;
+	LinkList p,q;
 	int j;
 
 	j = 1;
@@ -578,16 +549,18 @@ Status ListTraverse(LinkList L,void (*visit)(ElemType)) {
 void CreateList(LinkList *L,int n) {
 	LinkList q,p;
 	int i;
-	//
+	
+	p = NULL;
 	(*L) = (LinkList) malloc(sizeof(struct LNode));
 	(*L)->next = NULL;
 	q = *L;
 
 	for(i = 0;i < n;i++) {
 		p = (LinkList) malloc(sizeof(struct LNode));
-		scanf("%d",&p->data);
-		q->next = p;
-		q = q->next;
+		if(scanf("%d",&p->data)) {
+			q->next = p;
+			q = q->next;
+		}
 	}
 
 	p->next = NULL;
@@ -600,7 +573,7 @@ void CreateList(LinkList *L,int n) {
 * @return void
 */
 void CreateListReverse(LinkList *L,int n) {
-	LinkList p,q;
+	LinkList p;
 	int i;
 
 	(*L) = (LinkList) malloc(sizeof(struct LNode));
@@ -608,9 +581,10 @@ void CreateListReverse(LinkList *L,int n) {
 
 	for(i=0;i < n;i++) {
 		p = (LinkList) malloc(sizeof(struct LNode));
-		scanf("%d",&p->data);
-		p->next = (*L)->next;
-		(*L)->next = p;
+		if(scanf("%d",&p->data)) {
+			p->next = (*L)->next;
+			(*L)->next = p;
+		}
 	}
 }
 
