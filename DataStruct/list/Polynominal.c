@@ -4,6 +4,7 @@
 	* author: doodlesomething@163.com
 	* version:1.0
 	* description:线性链表实现一元多项式的相加减乘运算
+	* attentio :这里没有输入检测
 -----------------------------------------------------------------*/
 
 #include <stdio.h>
@@ -229,15 +230,18 @@ void PrintPoly(Poly Po) {
 * @param Poly *Pa
 * @param Poly *Pb
 * @return void
-* @detail 多项式相加有三种情况：
-	1.
-	2.
-	3.
+* @detail a,b多项式相加有三种情况：
+	1.a的指数小于b的指数，则将a的指针向后移动，
+	2.a的指数等于b的指数,则两者的系数相加的sum，
+		2.1 sum等于0,则删除a,b两节点，并将两者的指针后移
+		2.2 sum不等于0,则将a节点的coef更新，删除b节点，两指针后移
+	3.a的指数大于b的指数，将b插入在a之前,删除b节点,指针后移
 */
 void AddPoly(Poly *Pa,Poly *Pb) {
 	//ha的作用类似与前驱节点，方便删除节点
 	Link ha,hb,pa,pb;
 	term ta,tb;
+	int sum;
 	
 	ha = GetHead(*Pa);
 	hb = GetHead(*Pb);
@@ -255,9 +259,10 @@ void AddPoly(Poly *Pa,Poly *Pb) {
 				pa = NextPos(ha);
 				break;
 			case 0:
-				pa->data.coef +=  pb->data.coef;
+				sum = pa->data.coef + pb->data.coef;
 				
-				if(pa->data.coef != 0) {
+				if(sum != 0) {
+					pa->data.coef = sum;
 					SetCurElem(pa,pa->data);
 					ha = pa;
 				}
@@ -272,10 +277,10 @@ void AddPoly(Poly *Pa,Poly *Pb) {
 				pb = NextPos(hb);
 				break;
 			case 1:
-				DeleFirst(Pb,hb,&pb);
+				printf("%d\n",DeleFirst(Pb,hb,&pb));
 				InsFirst(Pa,ha,pb);
 				FreeNode(pb);
-				pa = NextPos(ha);
+				ha = NextPos(ha);
 				pb = NextPos(hb);
 				break;
 		}
@@ -329,6 +334,7 @@ Status DeleFirst(Poly *Po,Link h,Link *p) {
 //释放节点
 void FreeNode(Link p) {
 	free(p);
+	p = NULL;
 }
 
 //获取当前节点的值
