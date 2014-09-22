@@ -103,3 +103,22 @@ void visit(SElemType elem) {
 	printf("%d\t",elem);
 }
 
+/*
+* @description 清空栈
+*/
+void ClearStack(SqStack *S) {
+	while((*S).base != (*S).top ) 
+		(*S).top--;
+
+	(*S).stacksize = 0;
+}
+
+/*
+* @description 销毁栈
+*/
+void DestoryStack(SqStack *S) {
+	ClearStack(S);
+
+	(*S).top = (*S).base = NULL;
+}
+
