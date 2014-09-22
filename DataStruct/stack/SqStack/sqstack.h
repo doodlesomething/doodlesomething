@@ -48,3 +48,11 @@ void StackTraverse(SqStack S,void (*visit) (SElemType));
 
 //打印栈元素
 void visit(SElemType elem);
+
+//清空栈
+void ClearStack(SqStack *S);
+
+//销毁栈
+void DestoryStack(SqStack *S);
+
+
