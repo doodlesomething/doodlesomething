@@ -28,6 +28,11 @@ int main(int argc,char *argv[]){
 	printf("\n");
 	GetTop(S,&top_e);
 	printf("pop_e:%d, top_e:%d\n",pop_e,top_e);
+	ClearStack(&S);
+	printf("StackLength:%d\n",StackLength(S));
+	
+	DestoryStack(&S);
+	printf("StackEmpty:%d\n",StackEmpty(S));
 
 	/*测试用例结果输入：
 	StackEmpty:1
@@ -35,6 +40,8 @@ int main(int argc,char *argv[]){
 	StackLength:5
 	4	3	2	1	
 	pop_e:5, top_e:4
+	StackLength:0
+	StackEmpty:1
 
 	*/
 }
