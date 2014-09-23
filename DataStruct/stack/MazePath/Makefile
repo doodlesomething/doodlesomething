@@ -1,4 +1,4 @@
-# Makefile for test the MazePath
+# Makefile to test the MazePath
 
 OBJS = test.o MazePath.o
 CC = gcc
