@@ -20,7 +20,7 @@ Status InitQueue(LinkQueue *Q) {
 	if(!(*Q).font)
 		exit(OVERFLOW);
 	
-	(*Q).font = (*Q).rear;
+	(*Q).rear = (*Q).font;
 
 	(*Q).font->next = NULL;
 
