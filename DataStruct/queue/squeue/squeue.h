@@ -14,7 +14,7 @@
 #define ERROR 0
 #define OVERFLOW -2
 
-#define QUEUE_SIZE 50
+#define QUEUE_SIZE 3
 
 typedef int Status;
 typedef int ElemType;
