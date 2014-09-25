@@ -27,9 +27,5 @@ int main(int argc,char *argv[]) {
 
 	printf("Length:%d,IsFull:%d \n",QueueLength(Q),QueueFull(Q));
 	
-	/*测试用例结果：
-	0 1 2 3 4 5
-	Length:5 ,IsFull:0
-	*/
 
 }
