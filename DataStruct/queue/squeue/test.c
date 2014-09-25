@@ -15,8 +15,12 @@ int main(int argc,char *argv[]) {
 	int i;
 
 	InitQueue(&Q);
-	for(i = 0; i <5; i++)
-		EnQueue(&Q,i);
+	for(i = 0; i <10; i++)
+		//这里是为了检测循环数组是否起作用，这里的QUEUE_SIZE为3
+		if(!EnQueue(&Q,i))
+			printf("test\n");
+
+	printf("%d\n",Q.rear);
 	
 	QueueTraverse(Q,visit);
 	printf("\n");
