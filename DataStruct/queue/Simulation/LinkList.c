@@ -177,7 +177,7 @@ Status Remove(LinkList *L,Link *q) {
 
 //将s所指节点插入在p所指节点之前
 Status InsBefore(LinkList *L,Link s,Link p) {
-	Link tmp,q;
+	Link q;
 
 	if(ListEmpty(*L))
 		return ERROR;
@@ -204,7 +204,7 @@ Status InsBefore(LinkList *L,Link s,Link p) {
 
 //将s所指节点插入在p所指节点之后
 Status InsAfter(LinkList *L,Link s,Link p) {
-	Link tmp,q;
+	Link q;
 
 	
 	q = (*L).head;
@@ -235,6 +235,7 @@ int ListLength(LinkList L) {
 //更新p节点所指的值
 Status SetCurElem(Link *p,ElemType elem) {
 	(*p)->data = elem;
+	return OK;
 }
 
 //返回前驱元素的地址
@@ -258,7 +259,8 @@ Position PriorElem(LinkList L,ElemType elem,Status (*compare) (ElemType,ElemType
 }
 
 //返回后继元素的地址
-Position NextElem(LinkList L,ElemType elem,Status (*compare) (ElmeType,ElemType)) {
+/*
+Position NextElem(LinkList L,ElemType elem,Status (*compare) (ElmeType,ElemType) ) {
 	Link p;
 
 	if(ListLength(L) < 2)
@@ -275,7 +277,7 @@ Position NextElem(LinkList L,ElemType elem,Status (*compare) (ElmeType,ElemType)
 		
 	return NULL;
 }
-
+*/
 //定位元素,返回其地址
 Status LocateElem(LinkList L,Link *p,ElemType elem,Status (*compare) (ElemType,ElemType)) {
 	Link q;
@@ -349,3 +351,48 @@ Status compare(ElemType elem,ElemType e) {
 
 
 
+/*
+* @description:将新事件插入升序链表中,保持升序
+*/
+Status OrderInsert(LinkList *L,ElemType elem,Status (*cmp) (ElemType,ElemType)) {
+	Link p,q,tmp;
+
+	q = (*L).head;
+	p = q->next;
+
+	while(p && cmp(p->data,elem) < 0 ) {
+		q = p;
+		p = p->next;
+	}
+
+	tmp = (Link) malloc(sizeof(LNode));
+
+	if(!tmp)
+		exit(OVERFLOW);
+
+	
+	tmp->data = elem;
+	q->next = tmp;
+	tmp->next = p;
+	(*L).len++;
+	//倘若是在尾节点则改变尾指针
+	if(!p)
+		(*L).tail = tmp;
+
+	
+	return OK;
+}
+
+
+
+/*
+* @比较两个客户的到达时间
+*/
+Status cmp(ElemType elem,ElemType e) {
+	if(elem.OccurTime == e.OccurTime)
+		return 0;
+	else if(elem.OccurTime > e.OccurTime )
+		return 1;
+	else 
+		return -1;
+}
