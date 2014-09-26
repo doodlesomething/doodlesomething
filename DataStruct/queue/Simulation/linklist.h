@@ -21,7 +21,7 @@ typedef struct {
 
 typedef struct LNode  {  
 	ElemType    data;  
-	LNode       *next;  
+	struct LNode       *next;  
 }LNode, *Link, *Position;;  
 
 typedef struct {  
@@ -89,12 +89,12 @@ Status SetCurElem(Link *p,ElemType elem);
 
 
 //返回前驱元素的地址
-Position PriorElem(LinkList L,ElemType elem,Status (*compare) (ElemType,ElemType));
+Position PriorElem(LinkList L,ElemType elem,Status (*compare) (ElemType ,ElemType ));
 
 
 
 //返回后继元素的地址
-Position NextElem(LinkList L,ElemType elem,Status (*compare) (ElmeType,ElemType));
+//Position NextElem(LinkList L,ElemType elem,Status (*compare) (ElemType ,ElemType ));
 
 
 //定位元素,返回其地址
@@ -115,3 +115,11 @@ void print(ElemType elem);
 
 //比较两个的元素的大小
 Status compare(ElemType elem,ElemType e);
+
+
+
+//将元素插入升序表中依然保持升序
+Status OrderInsert(LinkList *L,ElemType elem,Status (*cmp) (ElemType,ElemType));
+
+//比较两元素大小
+Status cmp(ElemType elem,ElemType);
