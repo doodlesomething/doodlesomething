@@ -23,13 +23,13 @@ typedef	struct  {
   
 // 单链队列－－队列的链式存储结构  
 typedef struct QNode  {  
-    QElemType   data;  
-    QNode       *next;  
+    QElemType     data;  
+    struct QNode  *next;  
 }*QueuePtr;  
   
 typedef struct  
 {  
-    QueuePtr    front, rear;    // 队头、队尾指针  
+    QueuePtr    font, rear;    // 队头、队尾指针  
 }LinkQueue;  
   
 
@@ -43,7 +43,7 @@ Status QueueEmpty(LinkQueue Q);
 int QueueLength(LinkQueue Q);
 
 //返回队头元素
-Status GetHead(LinkQueue Q,QElemType *elem);
+Status GetHeadQueue(LinkQueue Q,QElemType *elem);
 
 //入队
 Status EnQueue(LinkQueue *Q,QElemType elem);
