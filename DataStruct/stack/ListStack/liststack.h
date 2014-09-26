@@ -55,4 +55,13 @@ Status GetTop(LinkStack S,ElemType *elem);
 //销毁链栈
 void DestoryStack(LinkStack *S);
 
+/*
+两个栈实现队列的功能
+*/
+//入队
+void InsertQueue(LinkStack *S,ElemType elem);
 
+//出队
+ElemType DeleQueue(LinkStack *S1,LinkStack *S2);
+
+//出队
