@@ -53,3 +53,9 @@ Status QueueTraverse(LinkQueue Q,void (*visit) (ElemType));
 
 //打印元素
 void visit(ElemType elem);
+
+
+//
+void Push(LinkQueue *Q1,LinkQueue *Q2,ElemType elem);
+
+ElemType Pop(LinkQueue *Q1,LinkQueue *Q2);
