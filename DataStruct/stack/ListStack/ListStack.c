@@ -128,3 +128,32 @@ void ClearStack(LinkStack *S) {
 void DestoryStack(LinkStack *S) {
 	ClearStack(S);
 }
+
+
+
+/*
+* @description:用两个s1,s2栈实现队列的出入队的功能
+* @思路:把栈s2作为缓冲区
+	入队时，直接进栈s1;
+	出队时，首先判断栈s2是否为空，若为空则将栈s1的全部元素依次弹出，并压入栈s2中，把s2栈顶元素弹出
+	即为出队；
+	倘若不为空，则将s2的栈顶元素弹出即可
+*/
+void InsertQueue(LinkStack *S,ElemType elem) {
+	Push(S,elem);
+}
+
+ElemType DeleQueue(LinkStack *S1,LinkStack *S2) {
+	ElemType e;
+	
+	while(StackEmpty(*S2)) {
+		while(!StackEmpty(*S1)) {
+			Pop(S1,&e);
+			Push(S2,e);
+		}
+	}
+	
+	Pop(S2,&e);
+
+	return e;
+}
