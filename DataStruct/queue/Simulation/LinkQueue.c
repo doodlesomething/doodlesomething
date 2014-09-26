@@ -15,7 +15,7 @@
 * @description:初始化链队
 */
 Status InitQueue(LinkQueue *Q) {
-	(*Q).font = (QueuePtr) malloc(sizeof(QNode));
+	(*Q).font = (QueuePtr) malloc(sizeof(struct QNode));
 
 	if(!(*Q).font)
 		exit(OVERFLOW);
@@ -57,7 +57,7 @@ int QueueLength(LinkQueue Q) {
 /*
 * @description:返回队头元素
 */
-Status GetHead(LinkQueue Q,QElemType *elem) {
+Status GetHeadQueue(LinkQueue Q,QElemType *elem) {
 	if(QueueEmpty(Q))
 		return ERROR;
 
@@ -73,7 +73,7 @@ Status GetHead(LinkQueue Q,QElemType *elem) {
 Status EnQueue(LinkQueue *Q,QElemType elem) {
 	QueuePtr p;
 
-	p = (QueuePtr) malloc(sizeof(QNode));
+	p = (QueuePtr) malloc(sizeof(struct QNode));
 
 	if(!p)
 		exit(OVERFLOW);
