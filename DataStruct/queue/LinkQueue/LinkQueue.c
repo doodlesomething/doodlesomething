@@ -154,3 +154,56 @@ Status QueueTraverse(LinkQueue Q,void (*visit) (ElemType)) {
 void visit(ElemType elem) {
 	printf("%d\t",elem);
 }
+
+
+
+
+
+
+/*
+* @description:两个队列q1,q2实现一个栈的功能（两个队列足够大，不出现队满的情况）
+* @more:栈的特性是先进后出，举一个序列1,2,3,4来说，我们试着往一个queue1里面push进去，这时候queue1的队头是1，队尾是4，这时候要实现delete的话，对应的栈应该删除4，对于queue1的队尾，前面的1,2,3，都是不需要的。
+实现dalete解决方法就是，依次弹出1,2,3并且压入queue2中，queue1里面只保存4，这时候要delete_head的话，对queue1进行pop操作就行了，然后queue1为空（注意这个状态）,然后我要继续delete,这个时候也是按照上面的思路，将queue2的1,2依次弹出，压入queue1里面，知道剩下最后一个队尾元素3，将它pop掉就行了！这时候的状态是queue1不为空，queue2为空。
+实现append的话也容易。注意上面的删除头以后的两种状态其实可以可以归结为一种，那就是其中一个queue为空，另一个可以为空（这个时候模拟的stack就是空），或者不为空，append来说，只需往非空的queue里面添到队尾就行了，若是都为空，随便选一个即可
+
+*/
+void Push(LinkQueue *Q1,LinkQueue *Q2,ElemType elem) {
+	LinkQueue *p,*q;
+
+	if(QueueEmpty(*Q1)) {
+		p = Q2;
+		q = Q1;
+	}
+	else {
+		p = Q1;
+		q = Q2;
+	}
+	
+	EnQueue(p,elem);
+}
+
+ElemType Pop(LinkQueue *Q1,LinkQueue *Q2) {
+	ElemType elem;
+	LinkQueue *p,*q;
+
+	if(QueueEmpty(*Q1)) {
+		p = Q2;
+		q = Q1;
+	}
+	else {
+		p = Q1;
+		q = Q2;
+	}
+
+	if(QueueEmpty(*Q1) && QueueEmpty(*Q2))
+		exit(OVERFLOW);
+
+	while(QueueLength(*p) != 1) {
+		DeQueue(p,&elem);
+		EnQueue(q,elem);
+	}
+	
+	DeQueue(p,&elem);
+	
+	return elem;
+}
