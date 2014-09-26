@@ -14,7 +14,7 @@ LinkList.o:LinkList.c linklist.h
 	$(CC) $(GFLAGS) -c LinkList.c -o LinkList.o
 
 LinkQueue.o:LinkQueue.c linkqueue.h
-	$(CC) $(GFLAGS) -c LinkQueue.c -o LinkQueu.o
+	$(CC) $(GFLAGS) -c LinkQueue.c -o LinkQueue.o
 
 clean:
 	rm -rf *.o Simulation
