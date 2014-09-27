@@ -13,9 +13,18 @@
 
 int main(int argc,char *argv[]) {
 	char str[]="abcdefhijk";
-	SString S;
+	char str1[]="cdef";
+	char str2[]="abcdefhijk";
+
+	SString S,T,V;
 
 	StrAssign(&S,str);
+	StrAssign(&T,str1);
+	StrPrint(T);
+	printf("index:%d\n",StrIndex(S,T,1));
+	printf("len:%d,empty:%d\n",StrLength(S),StrEmpty(S));
+	StrPrint(S);
+	DeleStr(&S,1,2);
 	StrPrint(S);
 
 }
