@@ -51,7 +51,7 @@ Status StrCompare(SString S,SString T) {
 	if(StrEmpty(S) || StrEmpty(T))
 		return OVERFLOW;
 
-	while(S[i++] == T[j++])
+	while(S[i++] == T[j++] && i <= S[0] && j <= T[0])
 		;
 	
 	if(S[i] == T[j])
@@ -71,9 +71,10 @@ Status StrCopy(SString S,SString *T) {
 
 	int i;
 
-	for(i = 1; i <= S[0]; i++) {
+	for(i = 1; i <= S[0]; i++)
 		(*T)[i] = S[i];
-	}
+
+	(*T)[0] = i;
 
 	return OK;
 }
@@ -188,7 +189,7 @@ Status DeleStr(SString *S,int pos,int len) {
 	
 	if(pos + len < (*S)[0])
 		for(i = pos + len;i <= (*S)[0];i++)
-			(*S)[i] = (*S)[i-len];
+			(*S)[i-len] = (*S)[i];
 
 	(*S)[0] -= len;
 
