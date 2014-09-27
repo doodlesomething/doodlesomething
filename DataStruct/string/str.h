@@ -44,13 +44,6 @@ Status StrEmpty(SString S);
 
 
 /*
-* @description:判空
-*/
-Status StrEmpty(SString S);
-
-
-
-/*
 * @description:比较两字符串
 */
 Status StrCompare(SString S,SString T);
