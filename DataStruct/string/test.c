@@ -12,19 +12,21 @@
 #include "str.h"
 
 int main(int argc,char *argv[]) {
-	char str[]="abcdefhijk";
-	char str1[]="cdef";
-	char str2[]="abcdefhijk";
+	char str[]="aabcefabch";
+	char str1[]="abc";
+	char str2[]="efg";
+	int arr[10];
 
 	SString S,T,V;
+	int i,num;
 
 	StrAssign(&S,str);
 	StrAssign(&T,str1);
-	StrPrint(T);
-	printf("index:%d\n",StrIndex(S,T,1));
+	StrAssign(&V,str2);
 	printf("len:%d,empty:%d\n",StrLength(S),StrEmpty(S));
+	StrReplace(&S,T,V);
+	printf("\n");
 	StrPrint(S);
-	DeleStr(&S,1,2);
-	StrPrint(S);
+	printf("len:%d,empty:%d,index:%d\n",StrLength(S),StrEmpty(S),StrIndex(V,T,2));
 
 }
