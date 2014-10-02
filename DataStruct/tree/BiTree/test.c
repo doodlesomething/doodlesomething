@@ -22,6 +22,9 @@ int main(int argc,char *argv[])  {
 	printf("\n");
 	PrintAsTree(T,0);
 	printf("\n");
+	LevelOrderTraverse(T,PrintElem);
+	printf("\n");
+	printf("TreeDepth:%d,Empty:%d\n",BiTreeDepth(T),BiTreeEmpty(T));
 
 	return 0;
 
