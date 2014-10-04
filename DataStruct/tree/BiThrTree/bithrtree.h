@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------------
 	* file:bithrtree.h
-	* date:3-10-2014
+	* date:4-10-2014
 	* author:doodlesomething@163.com
-	* version:1.0
+	* version:1.1
 	* description:二叉树的线索化和遍历
 ------------------------------------------------------------------------------*/
 
@@ -38,6 +38,8 @@ BiThrTree pre;
 //前序建立二叉树
 Status CreateBiThrTree(BiThrTree *T);
 
+
+
 //为二叉树增加头结点并线索化
 Status InOrderThread(BiThrTree *Thrt,BiThrTree T);
 
@@ -49,4 +51,18 @@ Status InOrderTraverse_Thr(BiThrTree T,Status (*Visit)(TElemType elem));
 
 //打印节点元素
 Status PrintElem(TElemType elem);
+
+
+
+
+//增加头结点并前序线索化
+Status PreOrderThread(BiThrTree *Thrt,BiThrTree T);
+
+//前序遍历线索化
+void PreThreading(BiThrTree p);
+
+
+//前序遍历
+Status InOrderTraverse_Thr(BiThrTree T,Status (*Visit) (TElemType elem));
+
 
