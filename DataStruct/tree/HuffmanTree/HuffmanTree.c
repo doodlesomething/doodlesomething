@@ -2,8 +2,9 @@
 	* file:HuffmanTree.c
 	* date:10-7-2014
 	* author:doodlesomething@163.com
-	* version:1.1
+	* version:1.2
 	* description:赫夫曼编码(自下向上和自上向下编码)
+	* more:增加了解码功能
 --------------------------------------------------------------*/
 
 
@@ -18,7 +19,7 @@
 * @description:建立Huffman树，并对所给的权值进行哈夫曼编码(从叶子节点向上到根节点进行编码)
 */
 
-void HuffmanCoding(HuffmanTree *HT,HuffmanCode *HC,int *w,int n) {
+void HuffmanCoding(HuffmanTree *HT,HuffmanCode *HC,int *w,char *str,int n) {
 
 	int i,c,f,m,s1,s2,start;
 	HuffmanTree p;
@@ -33,8 +34,9 @@ void HuffmanCoding(HuffmanTree *HT,HuffmanCode *HC,int *w,int n) {
 	*HT = (HuffmanTree)  malloc( (m+1) * sizeof(struct HTNode));
 
 	//把权值匹配给前n个节点
-	for(p = HT + 1,i = 1;i <= n ; i++,p++,w++) {
+	for(p = HT + 1,i = 1;i <= n ; i++,p++,w++,str++) {
 		(*HT)[i].weight = *w;
+		(*HT)[i].ch = *str;
 		(*HT)[i].parent = 0;
 		(*HT)[i].lchild = 0;
 		(*HT)[i].rchild = 0;
@@ -43,6 +45,7 @@ void HuffmanCoding(HuffmanTree *HT,HuffmanCode *HC,int *w,int n) {
 	//初始化剩余节点
 	for(; i <= m;i++) {
 		(*HT)[i].weight = 0;
+		(*HT)[i].ch = '\0';
 		(*HT)[i].parent = 0;
 		(*HT)[i].lchild = 0;
 		(*HT)[i].rchild = 0;
@@ -219,10 +222,6 @@ void HuffmanCoding_1(HuffmanTree *HT,HuffmanCode *HC,int *w,int n) {
 
 
 
-
-
-
-
 /*
 * @decription:在1--i个节点中找到权值最小的,这里类似于在数组中找最小值
 */
@@ -257,5 +256,34 @@ void Select(HuffmanTree *HT,int i,int *s1,int *s2) {
 		j = *s1;
 		*s1 = *s2;
 		*s2 = j;
+	}
+}
+
+
+/*
+* @description:对已经给定的树和二进制码进行哈夫曼解码
+*/
+void HuffmanDecode(HuffmanTree HT,char *code,char *str,int n) {
+	char *ch;
+	ch = code;
+	int i,m,j;
+
+	m = 2 * n - 1; 
+	j = 0;
+
+	while(*ch != '\0') {
+		//每次从根节点开始，往左右孩子找,'0'则为左,'1'则为右
+		for(i = m; HT[i].lchild != 0 && HT[i].rchild != 0;) {
+			if(*ch == '0')
+				i = HT[i].lchild;
+			else if(*ch == '1')
+				i = HT[i].rchild;
+
+			ch++;
+		}
+
+		//到叶子节点后将其字符值返回
+		*(str + j) = HT[i].ch;
+		j++;
 	}
 }
