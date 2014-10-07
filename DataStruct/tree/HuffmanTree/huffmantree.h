@@ -9,6 +9,7 @@
 
 typedef struct HTNode{
 	unsigned int weight;
+	char ch;
 	unsigned int parent,lchild,rchild;
 
 }*HuffmanTree;
@@ -27,8 +28,12 @@ int min(HuffmanTree *HT,int i);
 void Select(HuffmanTree *HT,int i,int *s1,int *s2);
 
 //哈夫曼建树和编码
-void HuffmanCoding(HuffmanTree *HT,HuffmanCode *HC,int *w,int n);
+void HuffmanCoding(HuffmanTree *HT,HuffmanCode *HC,int *w,char *str,int n);
 
 
 //哈夫曼建树和编码
 void HuffmanCoding_1(HuffmanTree *HT,HuffmanCode *HC,int *w,int n);
+
+
+//解码
+void HuffmanDecode(HuffmanTree HT,char *code,char *str,int n);
