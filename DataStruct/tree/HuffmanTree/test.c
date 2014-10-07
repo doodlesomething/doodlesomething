@@ -24,7 +24,7 @@ int main(int argc,char *argv[]) {
 	for(i = 0;i < n;i++)
 		scanf("%d",w+i);
 
-	HuffmanCoding(&HT,&HC,w,n);
+	HuffmanCoding_1(&HT,&HC,w,n);
 
 	//相对puts来说fputs会更加安全
 	for(i = 1;i <= n;i++) {
