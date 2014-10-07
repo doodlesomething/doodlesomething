@@ -30,3 +30,5 @@ void Select(HuffmanTree *HT,int i,int *s1,int *s2);
 void HuffmanCoding(HuffmanTree *HT,HuffmanCode *HC,int *w,int n);
 
 
+//哈夫曼建树和编码
+void HuffmanCoding_1(HuffmanTree *HT,HuffmanCode *HC,int *w,int n);
