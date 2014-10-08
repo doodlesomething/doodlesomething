@@ -136,16 +136,25 @@ Status InsertChild(Position p,int LR,BiTree c);
 //交换左右子树
 void Exchange(BiTree T);
 
+
+
 //求树中的叶子节点数目
 int LevesNum(BiTree T);
+
 
 //判断两颗二叉树是否相等
 Status EqualBiTree(BiTree T1,BiTree T2);
 
+
 //求树中节点的数目
 int NodeNum(BiTree T);
 
+
 //判断一个元素值是否在二叉树中
 Status Locate(BiTree T,TElemType elem);
+
+
+//非递归实现前序遍历
+Status PreTraverse(BiTree T,Status (*Visit) (TElemType));
 
 
