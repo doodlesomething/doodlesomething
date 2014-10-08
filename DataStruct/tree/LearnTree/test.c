@@ -19,12 +19,13 @@ int main(int argc,char *argv[])  {
 	//前序遍历二叉树
 	PreOrderTraverse(T,PrintElem);
 	printf("\n");
+	printf("%d\n",NodeNumKth(T,1));
 
-	PreTraverse(T,PrintElem);
-	printf("\n");
-	InTraverse(T,PrintElem);
-	printf("\n");
-	PostTraverse(T,PrintElem);
+	//PreTraverse(T,PrintElem);
+	//printf("\n");
+	//InTraverse(T,PrintElem);
+	//printf("\n");
+	//PostTraverse(T,PrintElem);
 	//Exchange(T);
 
 	//前序遍历二叉树
