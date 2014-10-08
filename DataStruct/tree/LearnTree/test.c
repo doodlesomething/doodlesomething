@@ -20,21 +20,22 @@ int main(int argc,char *argv[])  {
 	PreOrderTraverse(T,PrintElem);
 	printf("\n");
 
-	Exchange(T);
+	PreTraverse(T,PrintElem);
+	//Exchange(T);
 
 	//前序遍历二叉树
-	PreOrderTraverse(T,PrintElem);
+	//PreOrderTraverse(T,PrintElem);
 	printf("\n");
 
 	//测试叶子节点数目等函数
-	printf("LevesNum:%d,NodeNum:%d,Locate:%d\n",LevesNum(T),NodeNum(T),Locate(T,'A'));
+	//printf("LevesNum:%d,NodeNum:%d,Locate:%d\n",LevesNum(T),NodeNum(T),Locate(T,'A'));
 
-	CreateBiTree(&T1);
-	PreOrderTraverse(T1,PrintElem);
-	printf("\n");
+	//CreateBiTree(&T1);
+	//PreOrderTraverse(T1,PrintElem);
+	//printf("\n");
 
 	//比较两颗树是否相等
-	printf("Equal:%d\n",EqualBiTree(T,T1));
+	//printf("Equal:%d\n",EqualBiTree(T,T1));
 
 	return 0;
 
