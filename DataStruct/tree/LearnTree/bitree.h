@@ -157,4 +157,11 @@ Status Locate(BiTree T,TElemType elem);
 //非递归实现前序遍历
 Status PreTraverse(BiTree T,Status (*Visit) (TElemType));
 
+//非递归实现中序遍历
+Status InTraverse(BiTree T,Status (*Visit) (TElemType));
+
+
+//非递归实现后序遍历
+Status PostTraverse(BiTree T,Status (*Visit) (TElemType));
+
 
