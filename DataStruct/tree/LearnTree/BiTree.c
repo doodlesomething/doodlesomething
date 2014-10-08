@@ -597,6 +597,7 @@ Status PostTraverse(BiTree T,Status (*Visit) (TElemType)) {
 		return ERROR;
 
 	BiTree p,pre;
+	//pre是用来标记上一个访问的位置的，忘记这个很容易是程序陷入死循环
 	pre = NULL;
 
 	LinkStack S;
@@ -611,8 +612,9 @@ Status PostTraverse(BiTree T,Status (*Visit) (TElemType)) {
 			p = p->lchild;
 		}
 		else {
+			//获取栈顶元素但是不弹出
 			GetTop(S,&p);
-
+			//如果右边有元素且右边的节点不是刚才访问过的就往右边走
 			if(p->rchild != NULL && pre != p->rchild)
 				p = p->rchild;
 			else {
