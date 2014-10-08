@@ -554,11 +554,77 @@ Status PreTraverse(BiTree T,Status (*Visit) (TElemType)) {
 
 /*
 * @description:非递归遍历实现中序遍历
-
+* @more:这个对我来说真心想不出来，网上看到的让我幡然醒悟
+	其实感觉还是有一点递归的思想在里面的-->想象一下遍历
+	完左边的后，根节点右边的遍历思路是不是一样的
+	>>主要思路在于一直往左走到尽头，遇到空节点则弹出，遍历，
+	接着往右走
 */
+Status InTraverse(BiTree T,Status (*Visit) (TElemType)) {
+	if(T == NULL)
+		return ERROR;
+
+	BiTree p;
+	LinkStack S;
+
+	p = T;
+	InitStack(&S);
+	//注意结束循环的条件-->当指针为空且栈为空时在跳出循环
+	while(p || !StackEmpty(S)) {
+		if(p) {
+			//当左孩子的指针不为空时，一直往左走下去，并且将所走过的节点进栈
+			Push(&S,p);
+			p = p->lchild;
+		}
+		else {
+			//遇到的的节点为空则将现在的栈顶元素弹出打印，并往右走
+			Pop(&S,&p);
+			Visit(p->data);
+			p = p->rchild;
+		}
+	}
+
+	return OK;
+}
 
 
 
 /*
 * @description:非递归实现后序遍历
 */
+Status PostTraverse(BiTree T,Status (*Visit) (TElemType)) {
+	if(T == NULL)
+		return ERROR;
+
+	BiTree p,pre;
+	pre = NULL;
+
+	LinkStack S;
+
+	p = T;
+	InitStack(&S);
+	//注意结束循环的条件-->当指针为空且栈为空时在跳出循环
+	while(p || !StackEmpty(S)) {
+		if(p) {
+			//当左孩子的指针不为空时，一直往左走下去，并且将所走过的节点进栈
+			Push(&S,p);
+			p = p->lchild;
+		}
+		else {
+			GetTop(S,&p);
+
+			if(p->rchild != NULL && pre != p->rchild)
+				p = p->rchild;
+			else {
+				Pop(&S,&p);
+				pre = p;
+				Visit(p->data);
+				p = NULL;
+			}
+
+		}
+	}
+}
+
+
+
