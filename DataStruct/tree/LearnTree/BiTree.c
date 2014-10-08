@@ -208,7 +208,7 @@ Status CreateBiTree(BiTree *T) {
 
 	//下面的这两句如果不是将两颗不同的树的话可以删去
 	while(ch == '\n')
-		scanf("%c",&ch);
+		scanf("%c,",&ch);
 
 	if(ch == '#') 
 		*T = NULL;
@@ -628,5 +628,22 @@ Status PostTraverse(BiTree T,Status (*Visit) (TElemType)) {
 	}
 }
 
+
+
+/*
+* @description:求二叉树中第k层的节点个树
+* @more:递归思想
+  	1.当k == 0时，节点个数为零
+	2.当k == 1时，节点个数为1
+	3，当k > 1时，节点个数为左子树的节点个数和游子树的节点个数之和
+*/
+int NodeNumKth(BiTree T,int k) {
+	if(k == 0)
+		return 0;
+	if(k == 1)
+		return 1;
+
+	return NodeNumKth(T->lchild,k - 1) + NodeNumKth(T->rchild, k - 1);
+}
 
 
