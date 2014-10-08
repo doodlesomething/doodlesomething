@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "bitree.h"
 #include "linkqueue.h"
+#include "liststack.h"
 
 
 /*
@@ -510,3 +511,54 @@ Status Locate(BiTree T,TElemType elem) {
 		}
 	}
 }
+
+
+/*
+* @param BiTree T
+* @param Status (*Visit) (TElemType)
+* @description:非递归实现前序遍历
+* @more:这里使用栈来实现，在这个实现中其实
+	最关键是要想到先到右孩子进栈，再把左孩子进栈
+*/
+Status PreTraverse(BiTree T,Status (*Visit) (TElemType)) {
+	LinkStack S;
+	BiTree p;
+	p = T;
+
+	if(T != NULL)
+		InitStack(&S);
+	else
+		return ERROR;
+
+	//将根节点进栈
+	Push(&S,p);
+
+	//栈不为空
+	while(! StackEmpty(S)) {
+		Pop(&S,&p);
+
+		if(p) {
+			Visit(p->data);
+			//注意先将右孩子进栈，再将左孩子进栈，顺序不能变
+			if(p->rchild)
+				Push(&S,p->rchild);
+
+			if(p->lchild)
+				Push(&S,p->lchild);
+		}
+	}
+
+	return OK;
+}
+
+
+/*
+* @description:非递归遍历实现中序遍历
+
+*/
+
+
+
+/*
+* @description:非递归实现后序遍历
+*/
