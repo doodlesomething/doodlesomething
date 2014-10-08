@@ -21,6 +21,10 @@ int main(int argc,char *argv[])  {
 	printf("\n");
 
 	PreTraverse(T,PrintElem);
+	printf("\n");
+	InTraverse(T,PrintElem);
+	printf("\n");
+	PostTraverse(T,PrintElem);
 	//Exchange(T);
 
 	//前序遍历二叉树
