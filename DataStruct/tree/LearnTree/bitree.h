@@ -165,3 +165,7 @@ Status InTraverse(BiTree T,Status (*Visit) (TElemType));
 Status PostTraverse(BiTree T,Status (*Visit) (TElemType));
 
 
+//求二叉树中第k层的节点个数
+int NodeNumKth(BiTree T,int k);
+
+
