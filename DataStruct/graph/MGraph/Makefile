@@ -2,7 +2,7 @@
 # author:doodlesomething@163.com
 # date:10-9-2014
 
-OBJS = test.o MGraph.o
+OBJS = test.o MGraph.o LinkQueue.o
 CC = gcc
 GFLAGS = -g
 
@@ -11,6 +11,9 @@ MGraph:$(OBJS)
 
 MGraph.o:MGraph.c mgraph.h
 	$(CC) $(GFLAGS) -c MGraph.c -o MGraph.o
+
+LinkQueue.o:LinkQueue.c linkqueue.h
+	$(CC) $(GFLAGS) -c LinkQueue.c -o LinkQueue.o
 
 test.o:test.c mgraph.h
 	$(CC) $(GFLAGS) -c test.c -o test.o

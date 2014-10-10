@@ -103,3 +103,7 @@ Status DeleVex(MGraph *G,VertexType v);
 //在顶点v,w间插入一段弧或边
 Status InsertArc(MGraph *G,VertexType v,VertexType w);
 
+//删除一段弧或边，但是不删除顶点
+Status DeleArc(MGraph *G,VertexType v,VertexType w);
+
+

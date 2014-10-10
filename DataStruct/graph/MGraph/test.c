@@ -19,15 +19,6 @@ int main(int argc,char *argv[]) {
 	//深度优先遍历图
 	DFSTraverse(G,PrintElem);
 	printf("\n");
-
-	//删除顶点和相关的弧
-	//DeleVex(&G,1);
-	InsertVex(&G,9);
-	InsertVex(&G,0);
-	InsertArc(&G,9,0);
-	InsertArc(&G,6,0);
-	//深度优先遍历图
-	DFSTraverse(G,PrintElem);
-
+	BFSTraverse(G,PrintElem);
 	printf("\n");
 }

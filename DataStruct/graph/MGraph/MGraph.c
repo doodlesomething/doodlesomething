@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "mgraph.h"
+#include "linkqueue.h"
 
 
 
@@ -302,10 +303,6 @@ Status CreateUDN(MGraph *G) {
 
 
 
-
-
-
-
 /*
 * @description:判断图中是否存在v顶点，存在则返回该顶点在图中的位置，否则返回其他信息
 */
@@ -359,6 +356,51 @@ void DFS(MGraph G,int i,Status (*Visit) (VertexType)) {
 		if(!visited[w])
 			DFS(G,w,Visit);
 }
+
+
+
+/*
+* @description:图的广度优先遍历
+* @more:值得注意的是广度遍历和树中的层序遍历采用的是同样的思路-->采用队列辅助
+*/
+Status BFSTraverse(MGraph G,Status (*Visit)(VertexType)) {
+	LinkQueue Q;
+	int i,w,u;
+	
+	//必须重新初始化访问标记数组
+	for(i = 0;i < G.vexnum; i++) 
+		visited[i] = FALSE;
+
+	InitQueue(&Q);
+
+	//用于确保每个顶点都会被访问到
+	for(i = 0;i < G.vexnum; i++) {
+		if(!visited[i]) {
+			Visit(G.vexs[i]);
+			visited[i] = TRUE;
+
+			//进队
+			EnQueue(&Q,i);
+
+			while(!QueueEmpty(Q)) {
+				//出队一个元素
+				DeQueue(&Q,&u);
+				for(w = FirstAdjVex(G,u); w >= 0; w = NextAdjVex(G,u,w)) {
+					if(!visited[w]) {
+						visited[w] = TRUE;
+						Visit(G.vexs[w]);
+						EnQueue(&Q,w);
+					}
+				}
+			}
+		}
+	}
+
+	return OK;
+}
+
+
+
 
 
 /*
@@ -569,8 +611,8 @@ Status InsertArc(MGraph *G,VertexType v,VertexType w) {
 	
 	//注意如果是无向的，应该添加对称边<w,v)
 	if((*G).kind == UDG || (*G).kind == UDN) {
-		(*G).arcs[v1][w1].adj = (*G).arcs[w1][v1].adj;
-		(*G).arcs[v1][w1].info = (*G).arcs[w1][v1].info;
+		(*G).arcs[w1][v1].adj = (*G).arcs[v1][w1].adj;
+		(*G).arcs[w1][v1].info = (*G).arcs[v1][w1].info;
 	}
 
 	(*G).arcnum++;
@@ -583,6 +625,32 @@ Status InsertArc(MGraph *G,VertexType v,VertexType w) {
 * @description:删除弧或边<v,w>,如果图为无向，则同时删除其对称弧或边
 */
 Status DeleArc(MGraph *G,VertexType v,VertexType w) {
+	int v1,w1,m;
+
+	v1 = LocateVex(*G,v);
+	w1 = LocateVex(*G,w);
+	m = 0;
+	
+	if(v1 < 0 || w1 <0)
+		return ERROR;
+	
+	if((*G).kind == DN || (*G).kind == UDN)
+		m = INFINITY;
+
+
+	(*G).arcs[v1][w1].adj = m;
+
+	if((*G).kind == UDN || (*G).kind == UDG)
+		(*G).arcs[w1][v1].adj = (*G).arcs[v1][w1].adj;
+
+	if((*G).arcs[v1][w1].info) {
+		free((*G).arcs[v1][w1].info);
+
+		if((*G).kind == UDN || (*G).kind == UDG)
+			free((*G).arcs[w1][v1].info);
+	}
+	(*G).arcnum--;
+
 	return OK;
 }
 
