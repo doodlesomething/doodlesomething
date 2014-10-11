@@ -28,7 +28,7 @@ typedef struct ArcBox {
 	int tailvex;	//该弧的尾顶点的位置
 	int headvex;	//该弧的头顶点的位置
 	struct ArcBox *hlink;  //指向下一个起点相同的弧
-	struct ArcBox *tlink;	//指向一个重点相同的弧
+	struct ArcBox *tlink;	//指向一个终点相同的弧
 	int weight;	//弧的权值
 }ArcBox;
 

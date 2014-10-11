@@ -4,7 +4,8 @@
 	* author:doodlesomething@163.com
 	* version:1.0
 	* description:十字链表实现图的基本操作
-	* more:十字链表仅仅能表述有向图/网
+	* more:十字链表仅仅能表述有向图/网，
+		还有在遍历等操作时，沿着出
 -----------------------------------------------------------------------------*/
 
 
@@ -88,6 +89,162 @@ int LocateVex(OLGraph G,VertexType v) {
 
 
 /*
+* @description:销毁图
+* @more:遍历或是销毁等等一个思路可以仅仅按照出表来进行
+*/
+void Destory(OLGraph *G) {
+	ArcBox *p,*pre;
+	int i;
+
+	for(i = 0;i < (*G).vexnum ; i++) {
+
+		p = (*G).xlist[i].firstout; 	//找到每个顶点向量对应的十字链表
+
+		while(p) {
+			pre = p;
+			p = p->tlink;
+			free(pre);
+		}
+		
+	}
+}
+
+
+/*
+* @description:返回顶点v的值
+*/
+VertexType GetVex(OLGraph G,int v) {
+
+	if(v > G.vexnum || v < 0 ) 
+		exit(OVERFLOW);
+
+	return G.xlist[i].data;
+}
+
+
+/*
+* @description:对值为v的顶点赋值为value
+*/
+Status PutVex(OLGraph *G,VertexType v,VertexType value) {
+	int i;
+
+	i = LocateVex(*G,v);
+
+	if( i < 0)
+		return ERROR;
+
+	(*G).xlist[i].data = value;
+
+	return OK;
+}
+
+
+/*
+* @description:返回顶点值为v的下一个邻接顶点的序号
+* @more:这里的第一个邻接顶点理解为顶点对应链表中的第一个节点
+*/
+int FirstAdjVex(OLGraph G,VertexType v) {
+	int i;
+
+	i = LocateVex(G,v);
+
+	if( i < 0)
+		return -1;
+
+	if(G.xlist[i].firstout)
+		return G.xlist[i].firstout->headvex;
+}
+
+
+/*
+* @description:返回顶点为v相对顶点值为w的下一个邻接顶点的序号，w为v的一个邻接顶点
+*/
+int NextAdjVex(OLGraph G,VertexType v) {
+	int i,j;
+	ArcBox *p;
+
+	i = LocateVext(G,v);
+	j = LocateVext(G,w);
+
+	if(i < 0) 
+		return -1;
+
+	p = G.xlist[i].firstout;	//顶点v对应的弧链表
+
+	while(p && p->hlink) 
+		if(p->headvex == j)
+			return p->hlink->headvex;
+	
+}
+
+
+/*
+* @description:添加一个顶点值为v
+* @more:注意这里不处理边
+*/
+Status InsertVex(OLGraph *G,VertexType v) {
+	int i;
+	i = (*G).vexnum;
+
+	(*G).xlist[i].data = v;
+	(*G).xlist[i].firstin = NULL;
+	(*G).xlist[i].firstout = NULL;
+
+	return OK;
+}
+
+
+/*
+* @description:删除一个顶点值为v的顶点，并删除相关的弧
+* @more:这里的删除在于出表和入表是交叉的同时可能还要更新其他顶点的firstin等指针
+* 思路和邻接表中的不同的是这里不能先进行顶点向量的更新，那样无法找到对应的出/入指针
+* 顶点向量的更新应该放在最后面
+* 关于十字交叉的出入表的处理思路如下：
+	1.找到顶点值对应的链表，然后横向遍历出表的同时，查询入表中的tail是否有顶点的firstin指向该
+	节点，如果有则更新该firstin即可
+	2.关于出表的删除可进行横向遍历即可
+	3.更新顶点向量数组
+	4.done
+*/
+Status DeleVex(OLGraph *G,VertexTyep v) {
+	int i,j;
+	ArcBox *p,*pre;
+
+	i = LocateVex(*G,v);
+
+	
+	p = (*G).xlist[i].firstout;
+
+	
+	
+	//顶点向量数组上移动
+	for(j = i + 1;j < (*G).vexnum; j++)
+		(*G).xlist[j - 1] = (*G).xlist[j];
+
+
+	(*G).vexnum--;
+}
+
+/*
+* @description:在顶点值v和顶点值w间添加一段弧
+*/
+Status InsertArc(OLGraph *G,VertexType v,VertexType w) {
+	int i,j;
+
+
+}
+
+
+/*
+* @description:删除顶点值w和顶点值v间的一段弧
+*/
+Status DeleArc(OLGraph *G,VertexType v,VertexType w) {
+	int i,j;
+
+	return OK;
+}
+
+/*
 * @description:深度优先遍历图
 */
 Status DFSTraverse(OLGraph G,Status (*Visit) (VertexType)) {
@@ -123,6 +280,16 @@ void DFS(OLGraph G,int i,Status (*Visit) (VertexType)) {
 	if(p && !visited[p->headvex])
 		DFS(G,p->headvex,Visit);
 
+}
+
+
+/*
+* @descrption:广度优先遍历图
+*/
+Status BFSTraverse(OLGraph G,Status (*Visit) (VertexType)) {
+
+
+	return OK;
 }
 
 
