@@ -63,19 +63,18 @@ Status DeQueue(LinkQueue *Q,QElemType *elem) {
 	if(QueueEmpty(*Q))
 		return ERROR;
 	
-	QueuePtr p,tmp;
+	QueuePtr p;
 
-	p = (*Q).font;
+	p = (*Q).font->next;
 
-	tmp = p->next;
-	p->next = tmp->next;
-	(*elem) = tmp->data;
+	(*elem) = p->data;
+	(*Q).font->next = p->next;
 
 	//注意当删除的是最后一个元素时，应该将队尾指针指向头结点
-	if(tmp == (*Q).rear)
+	if(p == (*Q).rear)
 		(*Q).rear = (*Q).font;	
 
-	free(tmp);
+	free(p);
 
 	return OK;
 }

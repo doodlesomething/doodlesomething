@@ -60,8 +60,8 @@ Status CreateGraph(OLGraph *G) {
 
 		p->tailvex = i;	//弧的起点 -->入表
 		p->headvex = j;	//弧的终点 -->出表
-		p->tlink = (*G).xlist[j].firstin;	//指向下一个起点相同的弧节点
-		p->hlink = (*G).xlist[i].firstout;	//指向下一个终点相同的弧节点
+		p->hlink = (*G).xlist[j].firstin;	//指向下一个起点相同的弧节点
+		p->tlink = (*G).xlist[i].firstout;	//指向下一个终点相同的弧节点
 
 		//注意不管是出还是入表都是在表头插入的,<v1,v2>中表示v1有出,v2有入
 		(*G).xlist[i].firstout = (*G).xlist[j].firstin = p;
@@ -154,6 +154,8 @@ int FirstAdjVex(OLGraph G,VertexType v) {
 
 	if(G.xlist[i].firstout)
 		return G.xlist[i].firstout->headvex;
+	
+	return -1;
 }
 
 
@@ -172,12 +174,14 @@ int NextAdjVex(OLGraph G,VertexType v,VertexType w) {
 
 	p = G.xlist[i].firstout;	//顶点v对应的弧链表
 	
-	while(p && p->headvex != j)
+	while(p && p->headvex != j) 
 		p = p->tlink;
-	if(p)
-		p = p->tlink;
-	if(p)
-		return p->headvex;
+
+	while(p && p->headvex == j) {
+			p = p->tlink;
+		if(p)
+			return p->headvex;
+	}
 	
 	return -1;
 }

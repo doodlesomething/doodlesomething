@@ -76,13 +76,25 @@ int NextAdjVex(OLGraph G,VertexType v,VertexType w);
 //添加一个值为v的顶点
 Status InsertVex(OLGraph *G,VertexType v);
 
-//
+//插入一段弧
+Status InsertArc(OLGraph *G,VertexType v,VertexType w);
+
+//删除一个顶点和相关的弧
+Status DeleVex(OLGraph *G,VertexType v);
+
+
+//删除一段弧
+Status DeleArc(OLGraph *G,VertexType v,VertexType w);
 
 //深度优先遍历
 Status DFSTraverse(OLGraph G,Status (*Visit) (VertexType));
 
 //深度优先递归遍历
 void DFS(OLGraph G,int i,Status (*Visit) (VertexType));
+
+
+//广度优先遍历
+Status BFSTraverse(OLGraph G,Status (*Visit) (VertexType));
 
 //打印元素
 Status PrintElem(VertexType elem);
