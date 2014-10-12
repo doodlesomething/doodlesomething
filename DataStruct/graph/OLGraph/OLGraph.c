@@ -198,6 +198,7 @@ Status InsertVex(OLGraph *G,VertexType v) {
 	(*G).xlist[i].data = v;
 	(*G).xlist[i].firstin = NULL;
 	(*G).xlist[i].firstout = NULL;
+	(*G).vexnum++;
 
 	return OK;
 }
@@ -233,12 +234,12 @@ Status DeleVex(OLGraph *G,VertexType v) {
 		//注意这里仅仅是调整，不涉及释放空间，释放的操作在随后的出弧处理中进行
 		while(p) {
 			//如果是第一个节点
-			if(p->headvex == k && p == (*G).xlist[j].firstin) {
+			if(p->tailvex == k && p == (*G).xlist[j].firstin) {
 				(*G).xlist[j].firstin = p->hlink;
 				break;
 			}
 			//没有找到相应的节点
-			else if(p->headvex != k) {
+			else if(p->tailvex != k) {
 				pre = p;
 				p = p->hlink;
 			}
@@ -272,11 +273,11 @@ Status DeleVex(OLGraph *G,VertexType v) {
 
 		while(p) {
 			//入表中的第一个节点
-			if(p->tailvex == k && (*G).xlist[j].firstout == p) {
+			if(p->headvex == k && (*G).xlist[j].firstout == p) {
 				(*G).xlist[j].firstout = p->tlink;
 				break;
 			}
-			else if(p->tailvex != k) {
+			else if(p->headvex != k) {
 				pre = p;
 				p = p->tlink;
 			}
