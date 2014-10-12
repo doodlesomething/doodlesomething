@@ -58,6 +58,26 @@ Status CreateGraph(OLGraph *G);
 //定位顶点值v的位置，无则返回-1
 int LocateVex(OLGraph G,VertexType v);
 
+//销毁图
+void DestoryGraph(OLGraph *G);
+
+//返回顶点v的值
+VertexType GetVex(OLGraph G,int v);
+
+//对值为v的顶点赋值为value
+Status PutVex(OLGraph *G,VertexType v,VertexType value);
+
+//获取v的下一个邻接点的序号
+int FirstAdjVex(OLGraph G,VertexType v);
+
+//返回顶点v相对于w的下一个邻接点的序号
+int NextAdjVex(OLGraph G,VertexType v,VertexType w);
+
+//添加一个值为v的顶点
+Status InsertVex(OLGraph *G,VertexType v);
+
+//
+
 //深度优先遍历
 Status DFSTraverse(OLGraph G,Status (*Visit) (VertexType));
 

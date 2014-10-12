@@ -19,4 +19,8 @@ void main() {
 	//深度优先遍历
 	DFSTraverse(G,PrintElem);
 	printf("\n");
+
+	//广度优先遍历
+	BFSTraverse(G,PrintElem);
+	printf("\n");
 }
