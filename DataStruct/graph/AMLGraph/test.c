@@ -18,6 +18,6 @@ void main() {
 
 	CreateGraph(&G);
 
-	DFSTraverse(G,PrintElem);
+	DFSTraverse(G);
 	printf("\n");
 }

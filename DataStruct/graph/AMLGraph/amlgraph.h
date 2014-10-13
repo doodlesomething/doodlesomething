@@ -63,6 +63,15 @@ int LocateVex(AMLGraph G,VertexType v);
 //返回顶点的值
 VertexType GetVex(AMLGraph G,int v);
 
+//赋值
+Status PutVex(AMLGraph *G,VertexType v,VertexType value ); 
+
+//插入一个顶点
+Status InsertVex(AMLGraph *G,VertexType v);
+
+//插入一段弧
+Status InsertArc(AMLGraph *G,VertexType v,VertexType w);
+
 //返回顶点值为v的下一个邻接顶点的序号，否怎返回-1
 int FirstAdjVex(AMLGraph G,VertexType v);
 
@@ -71,13 +80,11 @@ int NextAdjVex(AMLGraph G,VertexType v,VertexType w);
 
 
 //深度优先遍历
-Status DFSTraverse(AMLGraph G,Status (*Visit) (VertexType));
+Status DFSTraverse(AMLGraph G);
 
 
 //递归实现深度遍历邻接点
-void DFS(AMLGraph G,int i,Status (*Visit) (VertexType));
+void DFS(AMLGraph G,int i);
 
 
-//打印顶点元素
-Status PrintElem(AMLGraph G,VertexType elem);
 

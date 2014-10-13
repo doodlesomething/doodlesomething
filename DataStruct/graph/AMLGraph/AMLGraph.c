@@ -32,8 +32,10 @@ Status CreateGraph(AMLGraph *G) {
 
 	//确定图的各个顶点
 	printf("please enter each value of graph:");
-	for(i = 0; i < (*G).vexnum ; i++) 
+	for(i = 0; i < (*G).vexnum ; i++)  {
 		scanf("%d,",&(*G).adjmulist[i].data);
+		(*G).adjmulist[i].firstarc = NULL;
+	}
 	
 	//确定各个顶点间关系，即建立边
 	if((*G).kind == UDG)
@@ -68,6 +70,8 @@ Status CreateGraph(AMLGraph *G) {
 		p->jlink = (*G).adjmulist[j].firstarc;
 		(*G).adjmulist[i].firstarc = p;
 		(*G).adjmulist[j].firstarc = p;
+		if((*G).kind == UDN)
+			p->weight = w;
 	}
 
 	return OK;
@@ -102,6 +106,23 @@ VertexType GetVex(AMLGraph G,int v) {
 
 
 /*
+* @description:对顶点值为v的顶点赋值为value
+*/
+Status PutVex(AMLGraph *G,VertexType v,VertexType value) {
+	int i;
+
+	i = LocateVex(*G,v);
+
+	if(i < 0)
+		return ERROR;
+
+	(*G).adjmulist[i].data = value;
+
+	return OK;
+}
+
+
+/*
 * @description:返回顶点值为v的下一个邻接点的序号，否则返回-1
 */
 int FirstAdjVex(AMLGraph G,VertexType v) {
@@ -110,7 +131,7 @@ int FirstAdjVex(AMLGraph G,VertexType v) {
 
 	i = LocateVex(G,v);
 
-	if(v < 0)
+	if(i < 0)
 		return -1;
 	
 	p = G.adjmulist[i].firstarc;
@@ -139,11 +160,14 @@ int NextAdjVex(AMLGraph G,VertexType v,VertexType w) {
 	j = LocateVex(G,w);
 
 	p = G.adjmulist[i].firstarc;	//不管怎样先找到入口
-
-	if(p->ivex == i && p->jvex != j ) //情况1
-		p = p->ilink; 
-	else if(p->jvex == i && p->ivex != i) //情况2
-		p = p->jlink;
+	
+	while(p)
+		if(p->ivex == i && p->jvex != j ) //情况1
+			p = p->ilink; 
+		else if(p->jvex == i && p->ivex != j) //情况2
+			p = p->jlink;
+		else
+			break;
 	
 	//情况1
 	if(p && p->ivex == i && p->jvex == j) {
@@ -157,7 +181,7 @@ int NextAdjVex(AMLGraph G,VertexType v,VertexType w) {
 
 	//情况2
 	if(p && p->ivex == j && p->jvex == i) {
-		p = p->ilink;
+		p = p->jlink;
 
 		if(p && p->ivex == i)
 			return p->jvex;
@@ -171,9 +195,65 @@ int NextAdjVex(AMLGraph G,VertexType v,VertexType w) {
 
 
 /*
-* @description:深度优先遍历图
+* @description:插入一个顶点
 */
-Status DFSTraverse(AMLGraph G,Status (*Visit) (VertexType)) {
+Status InsertVex(AMLGraph *G,VertexType v) {
+	int i;
+
+	i = (*G).vexnum;
+
+	(*G).adjmulist[i].data = v;
+	(*G).adjmulist[i].firstarc = NULL;
+	(*G).vexnum++;
+
+	return OK;
+}
+
+
+/*
+* @description:插入一段弧
+*/
+Status InsertArc(AMLGraph *G,VertexType v,VertexType w) {
+
+	//放回两顶点在顶点向量数组中位置
+	i = LocateVex(*G,v);
+	j = LocateVex(*G,w);
+
+
+	if(i < 0 || j < 0)
+		return ERROR;
+
+	p = (EBox *) malloc(sizeof(struct EBox));
+
+	if(!p)
+		exit(OVERFLOW);
+
+	///建立新节点
+	p->ivex = i;
+	p->jvex = j;
+	p->mark = unvisited;
+	//注意每次插入新节点都是在链表的表头进行
+	p->ilink = (*G).adjmulist[i].firstarc;
+	p->jlink = (*G).adjmulist[j].firstarc;
+	(*G).adjmulist[i].firstarc = p;
+	(*G).adjmulist[j].firstarc = p;
+
+	if((*G).kind == UDN) {
+		printf("please enter the weight of the arc:");
+		scanf("%d",&p->weight);
+	}
+
+
+	return OK;
+
+}
+
+
+
+/*
+ * @description:深度优先遍历图
+ */
+Status DFSTraverse(AMLGraph G) {
 	int i;
 
 	for(i = 0;i < G.vexnum ; i++) 
@@ -181,33 +261,34 @@ Status DFSTraverse(AMLGraph G,Status (*Visit) (VertexType)) {
 	//循环是为保证每个顶点都能被访问到
 	for(i = 0; i < G.vexnum; i++) 
 		if(!visited[i])
-			DFS(G,i,Visit);
+			DFS(G,i);
 
 }
 
 
 /*
-* @description:递归实现深度优先遍历
-*/
-void DFS(AMLGraph G,int i,Status (*Visit) (VertexType)) {
-	int j,w;
+ * @description:递归实现深度优先遍历
+ */
+void DFS(AMLGraph G,int i) {
+	int j;
+	EBox *p;
 
-	Visit(G.adjmulist[i].data);
+	printf("%d",G.adjmulist[i].data);
 	visited[i] = TRUE;
-	//循环为保证每个邻接顶点都能被访问到
-	for(w = FirstAdjVex(G,GetVex(G,i)); w >= 0 ; w = NextAdjVex(G,GetVex(G,i),GetVex(G,w))) 
-		if(!visited[w])
-			DFS(G,w,Visit);
+
+	p = G.adjmulist[i].firstarc;
+
+	while(p) {
+		j = p->ivex == i ? p->jvex : p->ivex;
+		if(!visited[j])
+			DFS(G,j);
+
+		p = p->ivex == i ? p->ilink : p->jlink ;
+	}
+
 }
 
 
-/*
-* @description:打印顶点元素
-*/
-Status PrintElem(AMLGraph G,VertexType elem) {
-	printf("%d",elem);
-	return OK;
-}
 
 
 
