@@ -28,7 +28,7 @@ Status CreateGraph(MGraph *G) {
 		case DG:
 			return CreateDG(G);
 		case UDN:
-			return CreateDG(G);
+			return CreateUDN(G);
 			break;
 		case DN:
 			return CreateDN(G);
@@ -78,7 +78,7 @@ Status CreateUDG(MGraph *G) {
 
 	//确定邻接矩阵
 	printf("please %d heads and %d tails:\n",(*G).vexnum,(*G).arcnum);
-	for(k = 0; k < (*G).vexnum; k++) {
+	for(k = 0; k < (*G).arcnum; k++) {
 		scanf("%d,%d",&v1,&v2);
 		
 		i = LocateVex(*G,v1);
@@ -145,7 +145,7 @@ Status CreateDG(MGraph *G) {
 
 	//确定邻接矩阵
 	printf("please %d heads and %d tails:\n",(*G).vexnum,(*G).arcnum);
-	for(k = 0; k < (*G).vexnum; k++) {
+	for(k = 0; k < (*G).arcnum; k++) {
 		scanf("%d,%d",&v1,&v2);
 		
 		i = LocateVex(*G,v1);
@@ -206,7 +206,7 @@ Status CreateDN(MGraph *G) {
 
 	//确定邻接矩阵
 	printf("please %d heads and %d tails and weights:\n",(*G).vexnum,(*G).arcnum);
-	for(k = 0; k < (*G).vexnum; k++) {
+	for(k = 0; k < (*G).arcnum; k++) {
 		scanf("%d,%d,%d",&v1,&v2,&w);
 		
 		i = LocateVex(*G,v1);
@@ -268,15 +268,15 @@ Status CreateUDN(MGraph *G) {
 
 
 	//确定邻接矩阵
-	printf("please %d heads and %d tails:\n",(*G).vexnum,(*G).arcnum);
-	for(k = 0; k < (*G).vexnum; k++) {
-		scanf("%d,%d",&v1,&v2);
+	printf("please enter heads,tails and weights:\n",(*G).vexnum,(*G).arcnum);
+	for(k = 0; k < (*G).arcnum; k++) {
+		scanf("%d,%d,%d",&v1,&v2,&w);
 		
 		i = LocateVex(*G,v1);
 		j = LocateVex(*G,v2);
 
 		if(i >= 0 && j >= 0)
-			(*G).arcs[i][j].adj = w;	//无向网
+			(*G).arcs[i][j].adj = (*G).arcs[j][i] = w;	//无向网
 
 		//如果顶点有附带信息,则输入并申请空间
 		if(infoflag) {
