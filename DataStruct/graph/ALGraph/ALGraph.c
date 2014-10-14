@@ -43,7 +43,7 @@ Status CreateGraph(ALGraph *G) {
 	else
 		printf("please enter the heads and tails:\n");
 
-	for(i = 0;i < (*G).vexnum; i++) {
+	for(i = 0;i < (*G).arcnum; i++) {
 		if((*G).kind == DN || (*G).kind == UDN) 
 			scanf("%d,%d,%d",&va,&vb,&w);
 		else 
