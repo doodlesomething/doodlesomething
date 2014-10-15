@@ -18,7 +18,7 @@
 * @description:创建图,包括有向图，无向图，有向网，无向网
 */
 Status CreateGraph(MGraph *G) {
-	printf("please enter the kind of the graph:");
+	printf("please enter the kind of the graph(DG:0,DN:1,UDG:2,UDN:3):");
 	scanf("%d",&(*G).kind);
 
 	switch((*G).kind) {
@@ -97,7 +97,7 @@ Status CreateUDG(MGraph *G) {
 
 			strcpy(info,str);
 
-			(*G).arcs[i][j].info = (*G).arcs[i][j].info = info;
+			(*G).arcs[i][j].info = (*G).arcs[j][i].info = info;
 		}
 	}
 
@@ -268,7 +268,7 @@ Status CreateUDN(MGraph *G) {
 
 
 	//确定邻接矩阵
-	printf("please heads,tails and weights:\n",(*G).vexnum,(*G).arcnum);
+	printf("please heads,tails and weights:\n");
 	for(k = 0; k < (*G).arcnum; k++) {
 		scanf("%d,%d,%d",&v1,&v2,&w);
 		
@@ -276,7 +276,7 @@ Status CreateUDN(MGraph *G) {
 		j = LocateVex(*G,v2);
 
 		if(i >= 0 && j >= 0)
-			(*G).arcs[i][j].adj = (*G).arcs[j][i] = w;	//无向网
+			(*G).arcs[i][j].adj = (*G).arcs[j][i].adj = w;	//无向网
 
 		//如果顶点有附带信息,则输入并申请空间
 		if(infoflag) {
@@ -345,7 +345,7 @@ Status DFSTraverse(MGraph G,Status (*Visit) (VertexType)) {
 * @description:深度优先递归遍历
 */
 void DFS(MGraph G,int i,Status (*Visit) (VertexType)) {
-	int j,w;
+	int w;
 
 	//标记
 	visited[i] = TRUE;
@@ -430,7 +430,7 @@ Status PrintElem(VertexType elem) {
 * @description:迪杰斯特拉算法实现最短路径
 * @more:类似贪心算法：即总是选择当前最优的路径，最后得到总体最优
 */
-void ShortestPath_DIJ(MGraph G,int v0,int PathMatrix[],int D[]) {
+void ShortestPath_DIJ(MGraph G,int v0,int P[][MAX_VERTEX_NUM],int D[]) {
 	//用于记录该节点和v是否已经有最短路径
 	int final[MAX_VERTEX_NUM];
 	int i,w,min,v,j;
@@ -442,7 +442,7 @@ void ShortestPath_DIJ(MGraph G,int v0,int PathMatrix[],int D[]) {
 		//设置空路径
 		for(w = 0; w < G.vexnum ;w++) 
 			P[i][w] = FALSE;
-		if(D[v0] < INFINITY ) {
+		if(D[i] < INFINITY ) {
 			P[i][v0] = TRUE;
 			P[i][i] = TRUE;
 		}
@@ -481,7 +481,7 @@ void ShortestPath_DIJ(MGraph G,int v0,int PathMatrix[],int D[]) {
 
 		//更新当前最短路径及距离
 		for(w = 0; w < G.vexnum ; w++) {
-			if(!final[w] && (min + G.arcs[w].adj) < D[w]) {
+			if(!final[w] && (min + G.arcs[v][w].adj) < D[w]) {
 				D[w] = min + G.arcs[v][w].adj;
 				for(j = 0; j < G.vexnum; j++)
 					P[w][j] = P[v][j];
@@ -496,3 +496,10 @@ void ShortestPath_DIJ(MGraph G,int v0,int PathMatrix[],int D[]) {
 
 
 
+
+
+/*
+* @description:两点间最短路径
+*/
+void ShortestPath_FLOYD() {
+}

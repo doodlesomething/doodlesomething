@@ -98,7 +98,7 @@ int NextAdjVex(MGraph G,int v,int w);
 
 
 //迪杰特斯拉算法实现最短路径
-void ShortestPath_DIJ(MGraph G,int v,int PathMatrix[],int D[]);
+void ShortestPath_DIJ(MGraph G,int v,int P[][MAX_VERTEX_NUM],int D[]);
 
 
 
