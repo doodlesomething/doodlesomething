@@ -50,6 +50,11 @@ typedef struct {
 int visited[MAX_VERTEX_NUM];
 
 
+//事件最早发生时间ve数组
+int ve[MAX_VERTEX_NUM];
+
+
+
 typedef int ElemType;
 
 typedef struct {
@@ -117,3 +122,8 @@ Status TopoLogicalSort(ALGraph G,LinkStack *T);
 
 //求各个图的各个顶点的入度数组
 void FindDegree(ALGraph G,int InDegree[]);
+
+//求关键路径
+Status CriticalPath(ALGraph G);
+
+

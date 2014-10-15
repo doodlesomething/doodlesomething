@@ -200,10 +200,11 @@ int FirstAdjVex(ALGraph G,VertexType v) {
 	int i;
 	ArcNode *p,*pre;
 
+	pre = NULL; 
 	i = LocateVex(G,v);
 
 	p = G.vertices[i].firstarc;
-
+	
 	while(p) {
 		pre = p;
 		p = p->nextarc;
@@ -299,7 +300,7 @@ Status PrintElem(VertexType elem) {
 Status TopoLogicalSort(ALGraph G,LinkStack *T) {
 	int InDegree[MAX_VERTEX_NUM];	//各个顶点的入度数组
 	LinkStack S;
-	int i,count;
+	int i,count,k;
 	ArcNode *p;
 
 	FindDegree(G,InDegree);
@@ -311,6 +312,10 @@ Status TopoLogicalSort(ALGraph G,LinkStack *T) {
 			Push(&S,i);
 
 	count = 0; 	//用于输出顶点计数，方便后面判断是否有环
+	
+	//对所有顶点的事件最早发生时间初始化为零
+	for(i = 0; i < G.vexnum ;i++)
+		ve[i] = 0;
 
 	while(!StackEmpty(S)) {
 		Pop(&S,&i);
@@ -320,12 +325,20 @@ Status TopoLogicalSort(ALGraph G,LinkStack *T) {
 		count++;
 
 		//对当前入度为零的邻接顶点减1(因为要"删除"当前节点)
-		for(p = G.vertices[i].firstarc ; p ; p = p->nextarc)
-			if(!(--InDegree[p->adjvex]))
-				Push(&S,p->adjvex);
+		for(p = G.vertices[i].firstarc ; p ; p = p->nextarc) {
+			k = p->adjvex;
+			//减一后如果为0则入栈
+			if(!(--InDegree[k]))
+				Push(&S,k);
+
+			//建立事件的最早发生时间数组
+			if( (ve[i] + p->weight ) > ve[k])
+				ve[k] = ve[i] + p->weight;
+		}
 	}
 
-
+	printf("\n");
+	
 	if(count < G.vexnum )
 		return ERROR;
 	else
@@ -347,7 +360,7 @@ void FindDegree(ALGraph G,int InDegree[]) {
 	
 	//遍历各个顶点对应的链表
 	for(i = 0; i < G.vexnum ; i++) {
-		p = G.vertices[0].firstarc;
+		p = G.vertices[i].firstarc;
 		//遍历当前顶点的链表
 		while(p) {
 			InDegree[p->adjvex]++;
@@ -360,8 +373,74 @@ void FindDegree(ALGraph G,int InDegree[]) {
 
 /*
 * @description:求关键路径
+* @more:当活动最早发生时间e(i)等于最迟发生时间l(i)是该活动为关键活动
+	为了求得e(i)和l[i]需要求得事件的最早发生时间ve(j)和最迟发生时间vl(j)
+	活动ai的持续时间为dut
+	则	e(i) = ve(j)	l(i) = vl(k) - dut
+	求关键路径必须在图有拓扑序列的前提下进行，即有向网中不能有环。
 */
 Status CriticalPath(ALGraph G) {
+	LinkStack T;
+	int vl[MAX_VERTEX_NUM];
+	int i,j,k,dut,ee,el;
+	char tag;
+	ArcNode *p;
+	
+	InitStack(&T);
+	//保证图无环
+	if(!TopoLogicalSort(G,&T))
+		return ERROR;
+	//求事件最早发生时间中最晚的一个
+	j = ve[0];
+	for(i = 1; i < G.vexnum ; i++) 
+		if(ve[i] > j)
+			j = ve[i];
+
+	//初始化事件发生的最晚时间
+	for(i = 0; i < G.vexnum ; i++) 
+		vl[i] = j;
+
+
+	//按拓扑逆序求各个顶点的vl值，即时间的最迟发生时间
+	while(!StackEmpty(T)) {
+		Pop(&T,&j);
+
+		for(p = G.vertices[j].firstarc ; p ; p = p->nextarc) {
+			k = p->adjvex;
+			dut = p->weight;	//持续时间
+			//这是逆推的过程，应仔细体会和TopoLogicalSort中求ve的不同
+			if(vl[k] - dut < vl[j])
+				vl[j] = vl[k] - dut;
+		}
+	}
+	
+	printf("j	k	dut	ee	el	tag:\n");
+	//在求得vl,ve后求l(i)和e(i),两者相等则为关键活动
+	for(j = 0; j < G.vexnum; j++) {
+		for(p = G.vertices[j].firstarc ; p ; p = p->nextarc) {
+			k = p->adjvex;
+			dut = p->weight;
+			//计算活动的最早发生时间和最迟发生时间
+			ee = ve[j];
+			el = vl[k] - dut;
+			tag = (ee == el) ? '*' : ' ';
+
+			printf("%d	%d	%d	%d	%d	%c:\n",j,k,dut,ee,el,tag);
+		}
+	}
+
+	printf("输出关键路径:\n");
+	for(j = 0; j < G.vexnum ; j++) {
+		for(p = G.vertices[j].firstarc ; p ; p = p->nextarc) {
+			k = p->adjvex;
+			dut = p->weight;
+
+			if(ve[j] == vl[k] - dut)
+				printf("%d --> %d,",G.vertices[j].data,G.vertices[k].data);
+		}
+	}
+
+
 	return OK;
 }
 
