@@ -13,7 +13,7 @@
 
 int main() {
 	MGraph G;
-	int i,j;
+	int i,j,k;
 
 	//创建图
 	CreateGraph(&G);
@@ -42,6 +42,29 @@ int main() {
 
 	printf("\n");
 
+	ShortestPath_FLOYD(G,PathMatrix,DM);
+	
+	for(i = 0; i < G.vexnum ; i++) {
+		//j = i+1是为了避免重复打印
+		for(j = i + 1; j < G.vexnum; j++) {
+			printf("%d -> %d : %d\t",i,j,DM[i][j]);
+
+			k = PathMatrix[i][j];
+			printf("path:%d",i);
+
+			while(k != j) {
+				printf(" -> %d",k);
+				k = PathMatrix[k][j];
+			}
+
+			printf(" -> %d\n",j);
+		}
+
+		printf("\n");
+	}
+	
+
+	
 	return 0;
 
 
@@ -72,4 +95,29 @@ int main() {
 	0 到各个顶点的最短路径:0 --> 0:0  0 --> 1:65535  0 --> 2:10  0 --> 3:50  0 --> 4:30  0 --> 5:60  
 
 	*/
+		
+
+	/*
+	弗洛伊德算法测试：
+	please enter the kind of the graph(DG:0,DN:1,UDG:2,UDN:3):3
+	please enter vexnum , arcnum and is info(1 or 0):3,3,0
+	the value of each vertex:0,1,2,
+	please heads,tails and weights:
+	0,1,2
+	0,2,1
+	1,2,5
+	深度优先遍历:012
+	最短路径数组
+	 0 0 0
+	 1 1 0
+	 1 0 1
+
+	0 到各个顶点的最短路径:0 --> 0:0  0 --> 1:2  0 --> 2:1  
+	0 -> 1 : 2	path:0 -> 1
+	0 -> 2 : 1	path:0 -> 2
+
+	1 -> 2 : 3	path:1 -> 0 -> 2
+
+	*/
+
 }

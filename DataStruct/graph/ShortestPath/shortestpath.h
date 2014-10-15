@@ -60,6 +60,8 @@ int PathMatrix[MAX_VERTEX_NUM][MAX_VERTEX_NUM];
 //最短路径矩阵
 int D[MAX_VERTEX_NUM];
 
+int DM[MAX_VERTEX_NUM][MAX_VERTEX_NUM];
+
 //创建图,包括有无向图，有无向网
 Status CreateGraph(MGraph *G);
 
@@ -99,6 +101,10 @@ int NextAdjVex(MGraph G,int v,int w);
 
 //迪杰特斯拉算法实现最短路径
 void ShortestPath_DIJ(MGraph G,int v,int P[][MAX_VERTEX_NUM],int D[]);
+
+
+//弗洛伊德算法实现求图的任意两顶点的最短路径
+void ShortestPath_FLOYD(MGraph G,int P[][MAX_VERTEX_NUM],int D[][MAX_VERTEX_NUM]);
 
 
 

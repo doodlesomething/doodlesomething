@@ -429,6 +429,7 @@ Status PrintElem(VertexType elem) {
 /*
 * @description:迪杰斯特拉算法实现最短路径
 * @more:类似贪心算法：即总是选择当前最优的路径，最后得到总体最优
+	时间复杂度:O(n的二次方)
 */
 void ShortestPath_DIJ(MGraph G,int v0,int P[][MAX_VERTEX_NUM],int D[]) {
 	//用于记录该节点和v是否已经有最短路径
@@ -499,7 +500,37 @@ void ShortestPath_DIJ(MGraph G,int v0,int P[][MAX_VERTEX_NUM],int D[]) {
 
 
 /*
-* @description:两点间最短路径
+* @description:任意两顶点间最短路径,使用弗洛伊德算法实现
+* @more:可以使用上面的迪杰斯特拉算法实现，即在外面再加上一层循环，两者时间复杂度同为O(n的三次方)
+	主要思想是：为了说明我们假设有三个点v0,v1,v2
+	如果从v1 -> v0 ->v2 的路径短于从v1 -> v2的路径，我们将前者作为v1到v2的最短路径，v0则为中转
+	节点，以此类推..
 */
-void ShortestPath_FLOYD() {
+void ShortestPath_FLOYD(MGraph G,int P[][MAX_VERTEX_NUM],int D[][MAX_VERTEX_NUM]) {
+	int v,w,k;
+
+	//初始化
+	for(v = 0; v < G.vexnum ; v++)
+		for(w = 0; w < G.vexnum ; w++) {
+			//D的初始值即为图的邻接矩阵
+			D[v][w] = G.arcs[v][w].adj;
+			P[v][w]= w;
+		}
+
+	//主循环,k代表用于中转的顶点序号，v代表开始的顶点，w代表结束的顶点
+	for( k = 0; k < G.vexnum ; k++) 
+		for( v = 0; v < G.vexnum ; v++)
+			for(w = 0; w < G.vexnum ; w++) {
+				/*
+				D[v][w]代表从v->w,D[v][k]代表从v->k,D[k][w]代表从k->w
+				D[v][k] + D[k][w] 代表以k顶点作为中转的路径长度
+				*/
+				if(D[v][w]  > D[v][k] + D[k][w] ) {
+					D[v][w] = D[v][k] + D[k][w];
+					//同时更新路径矩阵
+					P[v][w] = P[v][k];
+				}
+			}
 }
+
+
