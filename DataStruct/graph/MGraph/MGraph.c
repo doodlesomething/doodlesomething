@@ -19,7 +19,7 @@
 * @description:创建图,包括有向图，无向图，有向网，无向网
 */
 Status CreateGraph(MGraph *G) {
-	printf("please enter the kind of the graph:");
+	printf("please enter the kind of the graph(DG:0,DN:1,UDG:2,UDN:3):");
 	scanf("%d",&(*G).kind);
 
 	switch((*G).kind) {
@@ -98,7 +98,7 @@ Status CreateUDG(MGraph *G) {
 
 			strcpy(info,str);
 
-			(*G).arcs[i][j].info = (*G).arcs[i][j].info = info;
+			(*G).arcs[i][j].info = (*G).arcs[j][i].info = info;
 		}
 	}
 
@@ -269,7 +269,7 @@ Status CreateUDN(MGraph *G) {
 
 
 	//确定邻接矩阵
-	printf("please heads,tails and weights:\n",(*G).vexnum,(*G).arcnum);
+	printf("please heads,tails and weights:\n");
 	for(k = 0; k < (*G).arcnum; k++) {
 		scanf("%d,%d,%d",&v1,&v2,&w);
 		
@@ -277,7 +277,7 @@ Status CreateUDN(MGraph *G) {
 		j = LocateVex(*G,v2);
 
 		if(i >= 0 && j >= 0)
-			(*G).arcs[i][j].adj = (*G).arcs[j][i] = w;	//无向网
+			(*G).arcs[i][j].adj = (*G).arcs[j][i].adj = w;	//无向网
 
 		//如果顶点有附带信息,则输入并申请空间
 		if(infoflag) {
