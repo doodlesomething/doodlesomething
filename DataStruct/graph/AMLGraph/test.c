@@ -20,4 +20,22 @@ void main() {
 
 	DFSTraverse(G);
 	printf("\n");
+
+	/*	
+	测试用例结果：
+	please enter the kind of graph:0
+	please enter vexnum and arcnum:8,8
+	please enter each value of graph:1,2,3,4,5,6,7,8
+	please enter heads and tails:
+	1,2
+	1,3
+	2,4
+	2,5
+	3,6
+	3,7
+	4,8
+	5,8
+	13762584
+
+	*/
 }

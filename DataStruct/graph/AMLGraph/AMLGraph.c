@@ -214,7 +214,8 @@ Status InsertVex(AMLGraph *G,VertexType v) {
 * @description:插入一段弧
 */
 Status InsertArc(AMLGraph *G,VertexType v,VertexType w) {
-
+	int i,j;
+	EBox *p;
 	//放回两顶点在顶点向量数组中位置
 	i = LocateVex(*G,v);
 	j = LocateVex(*G,w);
