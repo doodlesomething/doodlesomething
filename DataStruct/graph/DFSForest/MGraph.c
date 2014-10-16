@@ -276,7 +276,7 @@ Status CreateUDN(MGraph *G) {
 		j = LocateVex(*G,v2);
 
 		if(i >= 0 && j >= 0)
-			(*G).arcs[i][j].adj = (*G).arcs[j][i] = w;	//无向网
+			(*G).arcs[i][j].adj = (*G).arcs[j][i].adj = w;	//无向网
 
 		//如果顶点有附带信息,则输入并申请空间
 		if(infoflag) {
