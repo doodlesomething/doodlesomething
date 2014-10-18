@@ -14,6 +14,7 @@
 int main() {
 	BiTree T;
 	SSTable S;
+	int i;
 
 	ElemType Data[] = { {4,5}, {1,1}, {2,1}, {3,2},  {5,3}, {8,3}, {6,4}, {7,4} , {9,5}};
 
@@ -37,14 +38,15 @@ int main() {
 	printf("\n");
 
 	//查找
-	if(Search_SOSTree(&T,3))
-		printf("静态树表查找:%d\n",T->data.weight);
+	i = Search_SOSTree(T,3);
+	if(i)
+		printf("静态树表查找:序号:%d 关键词:%d 权值:%d\n",i,S.elem[i].key,S.elem[i].weight);
 	//前序遍历
 	PreOrderTraverse(T,PrintElem);
 	printf("\n");
 	
 
-	return 0;]
+	return 0;
 
 	/*
 	4	1	2	3	5	8	6	7	9	

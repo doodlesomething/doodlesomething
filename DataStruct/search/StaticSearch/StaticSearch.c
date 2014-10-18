@@ -156,6 +156,7 @@ void SecondOptimal(BiTree *T,ElemType R[],int sw[],int low,int high) {
 	if(!(*T))
 		exit(STACKOVER);
 	(*T)->data = R[i];
+	(*T)->order = i;
 	
 	if(i == low)
 		(*T)->lchild = NULL;
@@ -205,17 +206,17 @@ void FindSW(int *sw,SSTable S) {
 * @more:注意这里T传进来之后是会改变的，即下次就不能在使用T来作为查找树了
 	且这里无法返回在原来中的位置的，当然可以考虑加入一个记录序号的域
 */
-Status  Search_SOSTree(BiTree *T,KeyType key) {
-	while(*T) {
-		if((*T)->data.key == key)
-			return OK;
-		else if((*T)->data.key > key)
-			(*T) = (*T)->lchild;
+int  Search_SOSTree(BiTree T,KeyType key) {
+	while(T) {
+		if(T->data.key == key)
+			return T->order;
+		else if(T->data.key > key)
+			T = T->lchild;
 		else
-			(*T) = (*T)->rchild;
+			T = T->rchild;
 	}
 
-	return ERROR;
+	return 0;
 }
 
 

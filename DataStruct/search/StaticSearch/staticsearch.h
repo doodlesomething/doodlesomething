@@ -80,7 +80,7 @@ Status CreateSOSTree(BiTree *T,SSTable S);
 
 
 //静态树表查找
-Status Search_SOSTree(BiTree *T,KeyType key);
+int Search_SOSTree(BiTree T,KeyType key);
 
 //累计权值
 void FindSW(int *sw,SSTable S);
