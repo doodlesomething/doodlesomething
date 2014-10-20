@@ -75,7 +75,9 @@ Result SearchBTree(BTree T,KeyType key) {
 */
 int Search(BTree p,KeyType key) {
 	int j,i;
-	
+		
+	j = 0;
+
 	for(i = 1; i <= p->keynum; i++) 
 		if(p->node[i].key <= key)
 			j = i;
@@ -115,7 +117,7 @@ Status InsertBTree(BTree *T,KeyType key,BTree q,int i) {
 			//顺着父亲链往上找合适插入的节点
 			q = q->parent;
 			if(q)
-				i = Search(q,rx);
+				i = Search(q,key);
 		}
 	}
 
@@ -163,7 +165,7 @@ void split(BTree *q,BTree *ap) {
 	(*ap)->node[0].ptr = (*q)->node[s].ptr;		//后一半移入新节点中
 
 	for(i = s + 1; i <= m ; i++) {
-		(*ap)->node[i - s] = (*ap)->node[i];
+		(*ap)->node[i - s] = (*q)->node[i];
 		if((*ap)->node[i - s].ptr)
 			(*ap)->node[i - s].ptr->parent = *ap;
 	}
@@ -210,7 +212,7 @@ void TraverseTree(BTree T,void (*Visit) (KeyType key)) {
 	if(T) {
 		if(T->node[0].ptr)
 			TraverseTree(T->node[0].ptr,Visit);
-		for(j = 1; j < T->keynum ; j++) {
+		for(j = 1; j <= T->keynum ; j++) {
 			Visit(T->node[j].key);
 
 			if(T->node[j].ptr)
