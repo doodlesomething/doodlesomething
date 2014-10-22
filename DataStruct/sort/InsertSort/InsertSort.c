@@ -2,7 +2,7 @@
 	* FileName:InsertSort.c
 	* date:10-22-2014
 	* author:doodlesomething@163.com
-	* decription:插入排序(为了理解透彻这里加上大量的注释)
+	* decription:插入排序(为了理解透彻这里加上大量的注释),下面的优化依次增加
 ---------------------------------------------------------------------------------------*/
 
 
@@ -85,6 +85,8 @@ void BInsertSort(SqList *L) {
 * @description:2-路插入排序
 * @more:设置另一个空间d存储，并设置两个指针一个first指向d中最小的元素，final指向d中最大的元素
 	 这里比较难以理解的是各种取模运算-->反正我是想不出来
+	 时间复杂度O(n的平方)
+	 空间复杂度O(n)
 */
 void P2_InsertSort(SqList *L) {
 	int i,j,first,final;
@@ -127,3 +129,37 @@ void P2_InsertSort(SqList *L) {
 
 
 }
+
+
+
+/*
+* @description:单个增量的直接插入排序
+*/
+void ShellInsert(SqList *L,int dk) {
+	int i,j;
+
+	for(i = dk + 1; i <= (*L).length ; i++) {
+		if((*L).r[i].key < (*L).r[i - dk].key) {
+			(*L).r[0] = (*L).r[i];
+			//这里r[0]不再起到哨兵的作用，仅仅是暂存的作用
+			for(j = i - dk; j > 0 && (*L).r[0].key < (*L).r[j].key ; j -= dk)
+				//后移
+				(*L).r[j + dk] = (*L).r[j];
+			//插入
+			(*L).r[j + dk] = (*L).r[0];
+
+		}
+	}
+}
+
+/*
+* @description:希尔排序
+*/
+void ShellSort(SqList *L,int dlta[],int t) {
+	int k;
+	for(k = 0; k < t; k++)
+		ShellInsert(L,dlta[k]);
+}
+
+
+

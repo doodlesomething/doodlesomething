@@ -9,6 +9,7 @@
 
 #define MAXSIZE 20
 #define N 8
+#define T 3
 #define OVERFLOW -2
 
 //关键词类型
@@ -33,4 +34,9 @@ void BInsertSort(SqList *L);
 
 //2路插入排序
 void P2_InsertSort(SqList *L);
+
+//希尔排序
+void ShellSort(SqList *L,int dlta[],int t);
+
+
 

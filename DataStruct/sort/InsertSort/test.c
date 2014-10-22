@@ -13,6 +13,8 @@ int main() {
 	SqList L;
 	int i;
 	void print(SqList L);
+	//注意这里的增量要求最后一个必须为1，且各个增量除一以外没有其他公因子
+	int dlta[T] ={5,3,1};
 	
 	ElemType arr[N] = {{49},{38},{65},{97},{76},{13},{27},{49}};
 	//赋值
@@ -22,8 +24,8 @@ int main() {
 	
 	printf("排序前:");
 	print(L);
-	//直接插入排序
-	P2_InsertSort(&L);
+	//排序
+	ShellSort(&L,dlta,T);
 	printf("排序后:");
 	print(L);
 
