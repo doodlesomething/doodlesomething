@@ -62,11 +62,15 @@ void HeapAdjust(SqList *L,int s,int m) {
 	ElemType elem;
 
 	elem = (*L).r[s];
+	//这里的2 * s是由完全二叉树的性质得来的，同样递增量也是完全二叉树的性质
 	for(i = 2 * s; i <= m ; i *= 2) {
+		//比较其左右孩子
 		if(i < m && (*L).r[i].key < (*L).r[i + 1].key)
 			i++;
+
 		if(elem.key >= (*L).r[i].key)
 			break;
+		//这里和最后面的一句起到了交换两个值的作用
 		(*L).r[s] = (*L).r[i];
 		s = i;
 	}
@@ -83,10 +87,15 @@ void HeapAdjust(SqList *L,int s,int m) {
 */
 void HeapSort(SqList *L) {
 	int i;
-	//建立大顶堆
+	/*
+	建立大顶堆
+	这里之所从(*L).length/2开始遍历是因为堆是一棵完全二叉树，
+	由完全二叉树的性质可得
+	逆序遍历是因为其是从下往上的建堆过程
+	*/
 	for(i = (*L).length / 2; i > 0 ; i--) 
 		HeapAdjust(L,i,(*L).length);
-	
+	//下面才是真正的排序部分
 	for(i = (*L).length ; i > 1; i--) {
 		swap(L,1,i);
 		HeapAdjust(L,1,i - 1);
