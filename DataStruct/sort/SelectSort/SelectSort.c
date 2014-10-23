@@ -104,3 +104,44 @@ void HeapSort(SqList *L) {
 }
 
 
+/*
+* @description:对左右两部分进行归并
+*/
+void MSort(ElemType *SR,ElemType **TR,int i,int m,int n) {
+	int j,k;
+
+}
+
+
+/*
+* @description:具体的归并排序实现
+*/
+void MSort(ElemType *SR,ElemType **TR1[],int s,int t) {
+	int m;
+	ElemType TR2[MAXSIZE + 1];
+
+	if(s == t)
+		(*TR1)[s] = SR[s];
+	else {
+		//找到中间值
+		m = (s + t) / 2;
+
+		MSort(SR,&TR2,s,m);	//对左半部分进行归并排序
+		MSort(SR,&TR2,m + 1,t);	//对右半部分进行归并排序
+		Merge(TR2,TR1,s,m,t);	//将左右两部分进行归并
+	}
+
+}
+
+
+
+
+/*
+* @description:归并排序
+*/
+void MergeSort(SqList *L) {
+	MSort((*L).r,&(*L).r,1,(*L).length);
+}
+
+
+
