@@ -105,10 +105,31 @@ void HeapSort(SqList *L) {
 
 
 /*
-* @description:对左右两部分进行归并
+* @description:对左右两部分进行合并
 */
-void MSort(ElemType *SR,ElemType **TR,int i,int m,int n) {
+void Merge(ElemType *SR,ElemType *TR,int i,int m,int n) {
 	int j,k;
+	/*
+	由于前后两部分都是有序的，故可以采用前后中一个元素比较的方法
+	设置两个指针，k主要是起到了控制下标的作用，只有在两部分都是
+	有序的情况下才可以用这种办法
+	*/
+	for(j = m + 1,k = i; i <= m && j <= n ; k++) {
+		if(SR[i].key < SR[j].key)
+			TR[k] = SR[i++];
+		else
+			TR[k] = SR[j++];
+	}
+
+	//将前半部分剩余的移入TR
+	if(i <= m)
+		while(i <= m)
+			TR[k++] = SR[i++];
+
+	//将后半部分剩余的移入TR,注意这两种情况不会同时出现
+	if(j <= n)
+		while(j <= n)
+			TR[k++] = SR[j++];
 
 }
 
@@ -116,18 +137,18 @@ void MSort(ElemType *SR,ElemType **TR,int i,int m,int n) {
 /*
 * @description:具体的归并排序实现
 */
-void MSort(ElemType *SR,ElemType **TR1[],int s,int t) {
+void MSort(ElemType *SR,ElemType *TR1,int s,int t) {
 	int m;
 	ElemType TR2[MAXSIZE + 1];
 
 	if(s == t)
-		(*TR1)[s] = SR[s];
+		TR1[s] = SR[s];
 	else {
 		//找到中间值
 		m = (s + t) / 2;
 
-		MSort(SR,&TR2,s,m);	//对左半部分进行归并排序
-		MSort(SR,&TR2,m + 1,t);	//对右半部分进行归并排序
+		MSort(SR,TR2,s,m);	//对左半部分进行归并排序
+		MSort(SR,TR2,m + 1,t);	//对右半部分进行归并排序
 		Merge(TR2,TR1,s,m,t);	//将左右两部分进行归并
 	}
 
@@ -140,7 +161,7 @@ void MSort(ElemType *SR,ElemType **TR1[],int s,int t) {
 * @description:归并排序
 */
 void MergeSort(SqList *L) {
-	MSort((*L).r,&(*L).r,1,(*L).length);
+	MSort((*L).r,(*L).r,1,(*L).length);
 }
 
 

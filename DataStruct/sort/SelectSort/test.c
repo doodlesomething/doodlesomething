@@ -23,7 +23,7 @@ int main() {
 	printf("排序前:");
 	print(L);
 	//排序
-	HeapSort(&L);
+	MergeSort(&L);
 	printf("排序后:");
 	print(L);
 

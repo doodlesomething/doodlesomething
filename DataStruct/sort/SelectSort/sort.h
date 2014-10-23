@@ -32,5 +32,8 @@ void SelectSort(SqList *L);
 void HeapSort(SqList *L);
 
 
+//归并排序
+void MergeSort(SqList *L);
+
 
 
