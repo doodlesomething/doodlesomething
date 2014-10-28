@@ -80,7 +80,27 @@ int main() {
 			total++;
 	}
 
+
 	printf("the result is :%d packets\n",total);	
 	
 	return 0;
 }
+
+/*
+测试用例：
+
+
+Sample Input 
+0 0 4 0 0 1
+
+Sample Output
+the result is  2 packets
+
+
+Sample Input
+7 5 1 0 0 0
+
+Sample Output
+the result is 1 packet
+
+*/
