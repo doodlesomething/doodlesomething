@@ -81,14 +81,15 @@ void test_show(int value) {
 
 int main(int argc,char **argv) {
 
-
-
+	// detail show
 	if(argc == 3) {
 		if(argv[1][0] == '-') {
 			if(argv[1][1] == 'i') 
 				test_show(atoi(argv[2]));
 			else if(argv[1][1] == 'f') 
 				test_show(atof(argv[2]));
+			else if(argv[1][1] == 's')
+				show_bytes(argv[2],strlen(argv[2]));
 			else 
 			fprintf(stderr,"Error:./endian number\n");
 		}
@@ -99,7 +100,7 @@ int main(int argc,char **argv) {
 		fprintf(stderr,"Error:./endian number\n");
 	}
 
-
+	//jude the endian mode
 	if(ENDIANS == 'l') {
 		printf(" little endian\n");
 	}
@@ -129,10 +130,13 @@ Output:
 39 30 00 00 
 00 e4 40 4a
 74 bf ca bf   这是随机的
-
+little endian
 
 
 可以看出来在linux下是小端的存储模式
 
 
 */
+
+
+
